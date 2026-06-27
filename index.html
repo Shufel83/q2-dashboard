@@ -67,8 +67,8 @@
   .spotlight .highlight { color: #2563eb; font-weight: 600; }
   .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
   .tag-web { background: #f3f4f6; color: #374151; }
-  .tag-claude { background: #dbeafe; color: #1d4ed8; }
-  .tag-gpt { background: #ede9fe; color: #7c3aed; }
+  .tag-mcp { background: #dbeafe; color: #1d4ed8; }
+  .tag-web2 { background: #d1fae5; color: #065f46; }
   .migration-arrow { font-size: 12px; color: #059669; margin-top: 10px; }
   @media (max-width: 768px) {
     .kpi-row, .chart-row { flex-direction: column; }
@@ -100,9 +100,9 @@
     <div class="kpi-sub">Jim Oates, Marc, Daniel</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-value">100%</div>
-    <div class="kpi-label">MCP by end of Q2</div>
-    <div class="kpi-sub">zero web app usage in June</div>
+    <div class="kpi-value">3</div>
+    <div class="kpi-label">Active platforms</div>
+    <div class="kpi-sub">Web App · Web 2.0 (AI) · MCP</div>
   </div>
 </div>
 
@@ -117,7 +117,7 @@
 <div class="section">
   <div class="section-title">2 — Engagement Depth</div>
   <div class="chart-box full">
-    <div class="chart-title">Avg. interactions per active user per week</div>
+    <div class="chart-title">Avg. active days per user per week</div>
     <div class="chart-container"><canvas id="chartVolume"></canvas></div>
   </div>
 </div>
@@ -143,10 +143,10 @@
   <div class="spotlight">
     <div class="spotlight-text">
       <h3>Web → AI-native</h3>
-      <p>Jim started on the web app in <span class="highlight">March</span>, explored heavily through <span class="highlight">April</span>, then migrated entirely to <span class="highlight">ChatGPT MCP</span> in May.</p>
+      <p>Jim started on the web app in <span class="highlight">March</span>, explored heavily through <span class="highlight">April</span>, then migrated entirely to <span class="highlight">MCP</span> in May.</p>
       <p>By June, he was running <span class="highlight">85 tool calls in a single day</span> — deep asset-level comps on live deals.</p>
       <p style="margin-top:12px"><span class="highlight">875 total interactions</span> across 7 weeks. The team also started using it — Rose and John Lauder logged in independently.</p>
-      <div class="migration-arrow">Web app (Mar–Apr) → ChatGPT MCP (May–Jun) → Team expansion</div>
+      <div class="migration-arrow">Web app (Mar–Apr) → MCP (May–Jun) → Team expansion</div>
     </div>
     <div class="spotlight-chart">
       <div class="chart-container"><canvas id="chartJim"></canvas></div>
@@ -164,15 +164,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var extUsers = [4, 5, 7, 6, 6, 4, 5, 1, 6, 1, 1, 4];
   var webOld = [712, 314, 231, 181, 182, 47, 21, 0, 73, 0, 0, 0];
   var webAI = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 43, 32];
-  var webEvents = [712, 314, 231, 181, 182, 47, 21, 0, 73, 0, 43, 32];
-  var claudeCalls = [0, 0, 0, 4, 37, 13, 40, 14, 29, 0, 0, 8];
-  var gptCalls = [0, 0, 0, 0, 0, 0, 49, 0, 106, 34, 5, 0];
-  var totalVol = [];
-  var perUser = [];
-  for (var i = 0; i < weeks.length; i++) {
-    totalVol.push(webEvents[i] + claudeCalls[i] + gptCalls[i]);
-    perUser.push(extUsers[i] > 0 ? Math.round(totalVol[i] / extUsers[i]) : 0);
-  }
+  var mcpCalls = [0, 0, 0, 4, 37, 13, 89, 14, 135, 34, 5, 8];
+  var activeDays = [1.5, 1.4, 1.4, 1.3, 1.3, 1.3, 2.0, 2.0, 1.7, 2.0, 2.0, 1.3];
 
   var gridColor = '#f0f0f0';
   var tickColor = '#9ca3af';
@@ -183,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
     data: {
       labels: weeks,
       datasets: [{
-        data: perUser,
+        data: activeDays,
         backgroundColor: '#3b82f6',
         borderRadius: 6,
         barPercentage: 0.6
@@ -195,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks: { color: tickColor, font: { size: 11 } }, grid: { color: gridColor } },
-        y: { ticks: { color: tickColor, font: { size: 11 } }, grid: { color: gridColor }, beginAtZero: true }
+        y: { ticks: { color: tickColor, font: { size: 11 }, stepSize: 1 }, grid: { color: gridColor }, beginAtZero: true, max: 5 }
       }
     }
   });
@@ -221,17 +214,10 @@ document.addEventListener('DOMContentLoaded', function() {
           fill: true, tension: 0.3, pointRadius: 3
         },
         {
-          label: 'Claude MCP',
-          data: claudeCalls,
+          label: 'MCP',
+          data: mcpCalls,
           borderColor: '#3b82f6',
           backgroundColor: 'rgba(59,130,246,0.25)',
-          fill: true, tension: 0.3, pointRadius: 3
-        },
-        {
-          label: 'ChatGPT MCP',
-          data: gptCalls,
-          borderColor: '#8b5cf6',
-          backgroundColor: 'rgba(139,92,246,0.25)',
           fill: true, tension: 0.3, pointRadius: 3
         }
       ]
@@ -255,20 +241,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Retention heatmap
   var users = [
-    { name: 'Jim Oates', company: 'Reichard', data: [364,165,55,2,0,45,56,0,106,34,48,0], channels: ['web','gpt'] },
-    { name: 'Marc', company: 'Prizma', data: [189,0,26,0,15,3,36,14,12,0,0,0], channels: ['web','claude'] },
+    { name: 'Jim Oates', company: 'Reichard', data: [364,165,55,2,0,45,56,0,106,34,48,0], channels: ['web','web2','mcp'] },
+    { name: 'Marc', company: 'Prizma', data: [189,0,26,0,15,3,36,14,12,0,0,0], channels: ['web','mcp'] },
     { name: 'Daniel', company: 'InvestnJoy', data: [114,0,25,107,25,2,0,0,0,0,0,0], channels: ['web'] },
-    { name: 'Michael', company: 'HPI', data: [0,65,0,0,98,0,0,0,0,0,0,0], channels: ['web','claude'] },
+    { name: 'Michael', company: 'HPI', data: [0,65,0,0,98,0,0,0,0,0,0,0], channels: ['web','mcp'] },
     { name: 'R. Welch', company: 'Kaplan', data: [45,0,0,59,0,0,0,0,0,0,0,0], channels: ['web'] },
-    { name: 'Kate', company: 'HPI', data: [0,50,0,12,0,0,0,0,7,0,0,0], channels: ['web','claude'] },
-    { name: 'N. Brown', company: 'AL Apts', data: [0,25,0,0,0,0,8,0,17,0,0,16], channels: ['web','claude'] },
+    { name: 'Kate', company: 'HPI', data: [0,50,0,12,0,0,0,0,7,0,0,0], channels: ['web','mcp'] },
+    { name: 'N. Brown', company: 'AL Apts', data: [0,25,0,0,0,0,8,0,17,0,0,16], channels: ['web','web2','mcp'] },
     { name: 'Uriya', company: 'ERE', data: [0,0,60,4,0,0,0,0,0,0,0,0], channels: ['web'] },
-    { name: 'Motty', company: 'Deergrow', data: [0,0,0,0,0,0,0,0,62,0,0,0], channels: ['claude'] },
+    { name: 'Motty', company: 'Deergrow', data: [0,0,0,0,0,0,0,0,62,0,0,0], channels: ['web','mcp'] },
     { name: 'Amit', company: 'ERE', data: [0,0,54,0,0,0,0,0,0,0,0,0], channels: ['web'] },
-    { name: 'Jack', company: 'Mentis CP', data: [0,0,0,0,31,10,0,0,0,0,0,0], channels: ['web','claude'] },
-    { name: 'M. Crane', company: 'Sage Vent.', data: [0,0,0,0,35,0,0,0,0,0,0,1], channels: ['web','claude'] },
-    { name: 'Teddy', company: 'HH Redstone', data: [0,0,0,0,15,0,4,0,4,0,0,7], channels: ['web','claude'] },
-    { name: 'Mike', company: '', data: [0,0,0,0,0,0,0,0,0,0,0,16], channels: ['web'] },
+    { name: 'Jack', company: 'Mentis CP', data: [0,0,0,0,31,10,0,0,0,0,0,0], channels: ['web','mcp'] },
+    { name: 'M. Crane', company: 'Sage Vent.', data: [0,0,0,0,35,0,0,0,0,0,0,1], channels: ['web','mcp'] },
+    { name: 'Teddy', company: 'HH Redstone', data: [0,0,0,0,15,0,4,0,4,0,0,7], channels: ['web','mcp'] },
+    { name: 'Mike', company: '', data: [0,0,0,0,0,0,0,0,0,0,0,16], channels: ['web2'] },
     { name: 'T. Lubeck', company: 'AL Apts', data: [0,0,10,1,0,0,0,0,0,0,0,0], channels: ['web'] },
     { name: 'Rose', company: 'Reichard', data: [0,9,1,0,0,0,0,0,0,0,0,0], channels: ['web'] },
     { name: 'J. Lauder', company: 'Reichard', data: [0,0,0,0,0,0,6,0,0,0,0,0], channels: ['web'] }
@@ -287,8 +273,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var out = '';
     for (var j = 0; j < ch.length; j++) {
       if (ch[j] === 'web') out += '<span class="tag tag-web">Web</span> ';
-      if (ch[j] === 'claude') out += '<span class="tag tag-claude">Claude</span> ';
-      if (ch[j] === 'gpt') out += '<span class="tag tag-gpt">ChatGPT</span> ';
+      if (ch[j] === 'web2') out += '<span class="tag tag-web2">Web 2.0</span> ';
+      if (ch[j] === 'mcp') out += '<span class="tag tag-mcp">MCP</span> ';
     }
     return out;
   }
@@ -349,15 +335,22 @@ document.addEventListener('DOMContentLoaded', function() {
       datasets: [
         {
           label: 'Web App',
-          data: [364, 165, 55, 2, 0, 45, 7, 0, 0, 0, 43, 0],
+          data: [364, 165, 55, 2, 0, 45, 7, 0, 0, 0, 0, 0],
           backgroundColor: 'rgba(156,163,175,0.5)',
           borderRadius: 4,
           barPercentage: 0.7
         },
         {
-          label: 'ChatGPT MCP',
+          label: 'Web 2.0 (AI)',
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 43, 0],
+          backgroundColor: 'rgba(16,185,129,0.5)',
+          borderRadius: 4,
+          barPercentage: 0.7
+        },
+        {
+          label: 'MCP',
           data: [0, 0, 0, 0, 0, 0, 49, 0, 106, 34, 5, 0],
-          backgroundColor: 'rgba(139,92,246,0.5)',
+          backgroundColor: 'rgba(59,130,246,0.5)',
           borderRadius: 4,
           barPercentage: 0.7
         }
