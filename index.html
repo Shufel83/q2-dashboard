@@ -114,7 +114,7 @@
       <div class="chart-container"><canvas id="chartUsers"></canvas></div>
     </div>
     <div class="chart-box">
-      <div class="chart-title">Weekly total interactions</div>
+      <div class="chart-title">Avg. interactions per active user</div>
       <div class="chart-container"><canvas id="chartVolume"></canvas></div>
     </div>
   </div>
@@ -172,8 +172,10 @@ document.addEventListener('DOMContentLoaded', function() {
   var claudeCalls = [0, 0, 0, 4, 31, 19, 36, 16, 31, 0, 0, 8];
   var gptCalls = [0, 0, 0, 0, 0, 0, 49, 0, 106, 34, 5, 0];
   var totalVol = [];
+  var perUser = [];
   for (var i = 0; i < weeks.length; i++) {
     totalVol.push(webEvents[i] + claudeCalls[i] + gptCalls[i]);
+    perUser.push(extUsers[i] > 0 ? Math.round(totalVol[i] / extUsers[i]) : 0);
   }
 
   var gridColor = '#f0f0f0';
@@ -225,19 +227,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Chart 2: Weekly volume
+  // Chart 2: Avg interactions per active user
   new Chart(document.getElementById('chartVolume').getContext('2d'), {
-    type: 'line',
+    type: 'bar',
     data: {
       labels: weeks,
       datasets: [{
-        data: totalVol,
-        borderColor: '#3b82f6',
-        backgroundColor: 'rgba(59,130,246,0.1)',
-        fill: true,
-        tension: 0.3,
-        pointRadius: 4,
-        pointBackgroundColor: '#3b82f6'
+        data: perUser,
+        backgroundColor: '#3b82f6',
+        borderRadius: 6,
+        barPercentage: 0.6
       }]
     },
     options: {
