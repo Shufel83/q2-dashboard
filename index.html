@@ -85,19 +85,19 @@
 
 <div class="kpi-row">
   <div class="kpi-card">
-    <div class="kpi-value">15</div>
+    <div class="kpi-value">17</div>
     <div class="kpi-label">External accounts</div>
-    <div class="kpi-sub">across 8 companies</div>
+    <div class="kpi-sub">across 12 companies</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-value">2,167</div>
+    <div class="kpi-value">2,175</div>
     <div class="kpi-label">Total interactions</div>
     <div class="kpi-sub">web + MCP combined</div>
   </div>
   <div class="kpi-card">
     <div class="kpi-value">3</div>
     <div class="kpi-label">Retained 5+ weeks</div>
-    <div class="kpi-sub">Jim Oates, Marc, N. Brown</div>
+    <div class="kpi-sub">Jim Oates, Marc, Daniel</div>
   </div>
   <div class="kpi-card">
     <div class="kpi-value">100%</div>
@@ -167,9 +167,9 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   var weeks = ['Apr 6','Apr 13','Apr 20','Apr 27','May 4','May 11','May 18','May 25','Jun 1','Jun 8','Jun 15','Jun 22'];
-  var extUsers = [3, 6, 7, 6, 5, 4, 5, 1, 6, 2, 1, 3];
-  var webEvents = [341, 685, 187, 225, 173, 56, 21, 0, 72, 1, 43, 16];
-  var claudeCalls = [0, 0, 0, 4, 31, 19, 36, 16, 31, 0, 0, 8];
+  var extUsers = [4, 5, 7, 6, 6, 4, 5, 1, 6, 1, 1, 4];
+  var webEvents = [712, 314, 231, 181, 182, 47, 21, 0, 73, 0, 43, 32];
+  var claudeCalls = [0, 0, 0, 4, 37, 13, 40, 14, 29, 0, 0, 8];
   var gptCalls = [0, 0, 0, 0, 0, 0, 49, 0, 106, 34, 5, 0];
   var totalVol = [];
   var perUser = [];
@@ -298,19 +298,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Retention heatmap
   var users = [
-    { name: 'Jim Oates', company: 'Reichard', data: [182,347,55,2,0,45,56,0,106,34,48,0], channels: ['web','gpt'] },
-    { name: 'Marc', company: 'Prizma', data: [0,189,26,0,0,9,32,16,14,0,0,0], channels: ['web','claude'] },
+    { name: 'Jim Oates', company: 'Reichard', data: [364,165,55,2,0,45,56,0,106,34,48,0], channels: ['web','gpt'] },
+    { name: 'Marc', company: 'Prizma', data: [189,0,26,0,15,3,36,14,12,0,0,0], channels: ['web','claude'] },
     { name: 'Daniel', company: 'InvestnJoy', data: [114,0,25,107,25,2,0,0,0,0,0,0], channels: ['web'] },
-    { name: 'Michael', company: 'HPI', data: [0,65,0,0,95,0,0,0,0,0,0,0], channels: ['web','claude'] },
+    { name: 'Michael', company: 'HPI', data: [0,65,0,0,98,0,0,0,0,0,0,0], channels: ['web','claude'] },
     { name: 'R. Welch', company: 'Kaplan', data: [45,0,0,59,0,0,0,0,0,0,0,0], channels: ['web'] },
-    { name: 'N. Brown', company: 'AL Apts', data: [0,25,0,0,0,0,8,0,8,0,0,16], channels: ['web','claude'] },
-    { name: 'Kate', company: 'HPI', data: [0,50,0,8,0,0,0,0,6,1,0,0], channels: ['web','claude'] },
-    { name: 'Uriya', company: 'ERE', data: [0,0,16,48,0,0,0,0,0,0,0,0], channels: ['web'] },
-    { name: 'Motty', company: 'Deergrow', data: [0,0,0,0,0,0,0,0,62,0,0,0], channels: ['web','claude'] },
+    { name: 'Kate', company: 'HPI', data: [0,50,0,12,0,0,0,0,7,0,0,0], channels: ['web','claude'] },
+    { name: 'N. Brown', company: 'AL Apts', data: [0,25,0,0,0,0,8,0,17,0,0,16], channels: ['web','claude'] },
+    { name: 'Uriya', company: 'ERE', data: [0,0,60,4,0,0,0,0,0,0,0,0], channels: ['web'] },
+    { name: 'Motty', company: 'Deergrow', data: [0,0,0,0,0,0,0,0,62,0,0,0], channels: ['claude'] },
     { name: 'Amit', company: 'ERE', data: [0,0,54,0,0,0,0,0,0,0,0,0], channels: ['web'] },
-    { name: 'Teddy', company: 'HH Redstone', data: [0,0,0,0,10,0,4,0,4,0,0,7], channels: ['web','claude'] },
+    { name: 'Jack', company: 'Mentis CP', data: [0,0,0,0,31,10,0,0,0,0,0,0], channels: ['web','claude'] },
     { name: 'M. Crane', company: 'Sage Vent.', data: [0,0,0,0,35,0,0,0,0,0,0,1], channels: ['web','claude'] },
-    { name: 'Jack', company: 'Mentis CP', data: [0,0,0,0,31,10,0,0,0,0,0,0], channels: ['web','claude'] }
+    { name: 'Teddy', company: 'HH Redstone', data: [0,0,0,0,15,0,4,0,4,0,0,7], channels: ['web','claude'] },
+    { name: 'Mike', company: '', data: [0,0,0,0,0,0,0,0,0,0,0,16], channels: ['web'] },
+    { name: 'T. Lubeck', company: 'AL Apts', data: [0,0,10,1,0,0,0,0,0,0,0,0], channels: ['web'] },
+    { name: 'Rose', company: 'Reichard', data: [0,9,1,0,0,0,0,0,0,0,0,0], channels: ['web'] },
+    { name: 'J. Lauder', company: 'Reichard', data: [0,0,0,0,0,0,6,0,0,0,0,0], channels: ['web'] }
   ];
 
   function heatClass(v) {
@@ -354,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Chart 4: Top users horizontal bar
   var topNames = ['Jim Oates', 'Marc (Prizma)', 'Daniel (InvestnJoy)', 'Michael (HPI)', 'R. Welch (Kaplan)'];
-  var topTotals = [875, 295, 273, 255, 104];
+  var topTotals = [875, 295, 273, 163, 104];
   var topColors = ['#8b5cf6', '#3b82f6', '#9ca3af', '#9ca3af', '#9ca3af'];
 
   new Chart(document.getElementById('chartTopUsers').getContext('2d'), {
@@ -388,7 +392,7 @@ document.addEventListener('DOMContentLoaded', function() {
       datasets: [
         {
           label: 'Web App',
-          data: [182, 347, 55, 2, 0, 45, 7, 0, 0, 0, 43, 0],
+          data: [364, 165, 55, 2, 0, 45, 7, 0, 0, 0, 43, 0],
           backgroundColor: 'rgba(156,163,175,0.5)',
           borderRadius: 4,
           barPercentage: 0.7
