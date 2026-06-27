@@ -107,24 +107,18 @@
 </div>
 
 <div class="section">
-  <div class="section-title">1 — Usage Trend</div>
-  <div class="chart-row">
-    <div class="chart-box">
-      <div class="chart-title">Weekly interactions by platform</div>
-      <div class="chart-container"><canvas id="chartUsers"></canvas></div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-title">Avg. interactions per active user</div>
-      <div class="chart-container"><canvas id="chartVolume"></canvas></div>
-    </div>
+  <div class="section-title">1 — Platform Migration</div>
+  <div class="chart-box full">
+    <div class="chart-title">Weekly interactions by channel</div>
+    <div class="chart-container tall"><canvas id="chartPlatform"></canvas></div>
   </div>
 </div>
 
 <div class="section">
-  <div class="section-title">2 — Platform Migration</div>
+  <div class="section-title">2 — Engagement Depth</div>
   <div class="chart-box full">
-    <div class="chart-title">Interactions by channel — week over week</div>
-    <div class="chart-container tall"><canvas id="chartPlatform"></canvas></div>
+    <div class="chart-title">Avg. interactions per active user per week</div>
+    <div class="chart-container"><canvas id="chartVolume"></canvas></div>
   </div>
 </div>
 
@@ -168,6 +162,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var weeks = ['Apr 6','Apr 13','Apr 20','Apr 27','May 4','May 11','May 18','May 25','Jun 1','Jun 8','Jun 15','Jun 22'];
   var extUsers = [4, 5, 7, 6, 6, 4, 5, 1, 6, 1, 1, 4];
+  var webOld = [712, 314, 231, 181, 182, 47, 21, 0, 73, 0, 0, 0];
+  var webAI = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 43, 32];
   var webEvents = [712, 314, 231, 181, 182, 47, 21, 0, 73, 0, 43, 32];
   var claudeCalls = [0, 0, 0, 4, 37, 13, 40, 14, 29, 0, 0, 8];
   var gptCalls = [0, 0, 0, 0, 0, 0, 49, 0, 106, 34, 5, 0];
@@ -180,52 +176,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var gridColor = '#f0f0f0';
   var tickColor = '#9ca3af';
-
-  // Chart 1: Weekly unique users — stacked area by platform
-  new Chart(document.getElementById('chartUsers').getContext('2d'), {
-    type: 'line',
-    data: {
-      labels: weeks,
-      datasets: [
-        {
-          label: 'Web App',
-          data: webEvents,
-          borderColor: '#9ca3af',
-          backgroundColor: 'rgba(156,163,175,0.25)',
-          fill: true, tension: 0.3, pointRadius: 3
-        },
-        {
-          label: 'Claude MCP',
-          data: claudeCalls,
-          borderColor: '#3b82f6',
-          backgroundColor: 'rgba(59,130,246,0.25)',
-          fill: true, tension: 0.3, pointRadius: 3
-        },
-        {
-          label: 'ChatGPT MCP',
-          data: gptCalls,
-          borderColor: '#8b5cf6',
-          backgroundColor: 'rgba(139,92,246,0.25)',
-          fill: true, tension: 0.3, pointRadius: 3
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: true,
-          labels: { color: '#374151', font: { size: 11 }, usePointStyle: true, pointStyle: 'circle', padding: 16 },
-          position: 'top'
-        }
-      },
-      scales: {
-        x: { stacked: true, ticks: { color: tickColor, font: { size: 11 } }, grid: { color: gridColor } },
-        y: { stacked: true, ticks: { color: tickColor, font: { size: 11 } }, grid: { color: gridColor }, beginAtZero: true }
-      }
-    }
-  });
 
   // Chart 2: Avg interactions per active user
   new Chart(document.getElementById('chartVolume').getContext('2d'), {
@@ -250,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Chart 3: Platform stacked area
+  // Chart 1: Platform stacked area (with Web 2.0 split)
   new Chart(document.getElementById('chartPlatform').getContext('2d'), {
     type: 'line',
     data: {
@@ -258,9 +208,16 @@ document.addEventListener('DOMContentLoaded', function() {
       datasets: [
         {
           label: 'Web App',
-          data: webEvents,
+          data: webOld,
           borderColor: '#9ca3af',
           backgroundColor: 'rgba(156,163,175,0.25)',
+          fill: true, tension: 0.3, pointRadius: 3
+        },
+        {
+          label: 'Web 2.0 (AI)',
+          data: webAI,
+          borderColor: '#10b981',
+          backgroundColor: 'rgba(16,185,129,0.25)',
           fill: true, tension: 0.3, pointRadius: 3
         },
         {
