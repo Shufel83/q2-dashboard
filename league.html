@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lizo League</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg: #f5f6fa;
+    --card: #ffffff;
+    --card-hover: #f8f9fc;
+    --border: #e5e7ee;
+    --text: #1a1d2e;
+    --text-dim: #6b7085;
+    --text-muted: #9ca0b3;
+    --brand: #1E033E;
+    --purple: #7c5cfc;
+    --purple-light: #ede9ff;
+    --purple-glow: rgba(124, 92, 252, 0.12);
+    --gold: #d4a000;
+    --gold-bg: #fef9e7;
+    --silver: #8a8e9e;
+    --silver-bg: #f3f4f7;
+    --bronze: #b87333;
+    --bronze-bg: #fdf4ec;
+    --green: #10b981;
+    --red: #ef4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .header-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .header-logo svg { height: 28px; width: auto; }
+  .header h1 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--brand);
+    letter-spacing: -1px;
+  }
+  .header h1 span {
+    background: linear-gradient(135deg, var(--purple), #9b7dff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .week-label {
+    display: inline-block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-top: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  /* Benchmark */
+  .benchmark {
+    background: linear-gradient(135deg, var(--purple-light), #f3eeff);
+    border: 2px solid var(--purple);
+    border-radius: 16px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 24px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 12px rgba(124, 92, 252, 0.1);
+  }
+  .benchmark-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--purple);
+  }
+  .benchmark-info { flex: 1; }
+  .benchmark-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--purple);
+  }
+  .benchmark-name {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .benchmark-badges {
+    display: flex; gap: 4px; align-items: center; margin-top: 4px;
+  }
+  .benchmark-stats {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  .benchmark-stat { text-align: center; }
+  .benchmark-stat-value {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--purple);
+  }
+  .benchmark-stat-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+  }
+  .beat-boss {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 14px;
+  }
+  .beat-boss-pts {
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--green);
+  }
+  .beat-boss-text {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    line-height: 1.3;
+  }
+
+  /* Layout */
+  .layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 20px;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  .main { display: flex; flex-direction: column; gap: 20px; }
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+  /* Card */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .card-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  /* Podium */
+  .podium {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px 0 0;
+  }
+  .podium-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .podium-slot.first { order: 2; }
+  .podium-slot.second { order: 1; }
+  .podium-slot.third { order: 3; }
+  .podium-avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--border);
+  }
+  .first .podium-avatar { width: 72px; height: 72px; border-color: var(--gold); box-shadow: 0 0 14px rgba(212,160,0,0.2); }
+  .second .podium-avatar { border-color: var(--silver); }
+  .third .podium-avatar { border-color: var(--bronze); }
+  .podium-name { font-weight: 700; font-size: 0.85rem; }
+  .podium-score { font-size: 1.2rem; font-weight: 900; color: var(--purple); }
+  .first .podium-score { font-size: 1.5rem; }
+  .podium-bar {
+    width: 82px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: rgba(0,0,0,0.15);
+  }
+  .first .podium-bar { height: 100px; background: var(--gold-bg); border: 1px solid rgba(212,160,0,0.2); border-bottom: none; width: 90px; }
+  .second .podium-bar { height: 72px; background: var(--silver-bg); border: 1px solid rgba(0,0,0,0.06); border-bottom: none; }
+  .third .podium-bar { height: 50px; background: var(--bronze-bg); border: 1px solid rgba(184,115,51,0.15); border-bottom: none; }
+  .crown { font-size: 1.4rem; }
+
+  /* Leaderboard table */
+  .lb-table { width: 100%; border-collapse: collapse; }
+  .lb-table th {
+    text-align: left;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    padding: 0 10px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .lb-table th:last-child, .lb-table td:last-child { text-align: right; }
+  .lb-table tr { transition: background 0.15s; }
+  .lb-table tbody tr:hover { background: var(--card-hover); }
+  .lb-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .lb-table tbody tr:last-child td { border-bottom: none; }
+
+  .rank { font-weight: 800; width: 26px; display: inline-block; text-align: center; }
+  .rank-1 { color: var(--gold); }
+  .rank-2 { color: var(--silver); }
+  .rank-3 { color: var(--bronze); }
+
+  .player-cell { display: flex; align-items: center; gap: 10px; }
+  .player-avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+  }
+  .player-name { font-weight: 600; }
+
+  .platform-badges { display: flex; gap: 3px; }
+  .badge {
+    width: 22px; height: 22px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.58rem;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .badge.active { border-color: var(--purple); background: var(--purple-light); color: var(--purple); }
+  .badge.inactive { opacity: 0.25; color: var(--text-muted); }
+
+  .multiplier {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 8px;
+    background: var(--purple-light);
+    color: var(--purple);
+  }
+  .multiplier.none { opacity: 0.3; background: var(--bg); color: var(--text-muted); }
+
+  .score-cell { font-weight: 800; font-size: 1rem; }
+  .zero-score { color: var(--text-muted); font-weight: 500; }
+
+  /* Heatmap */
+  .heatmap { width: 100%; border-collapse: collapse; }
+  .heatmap th {
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    padding: 4px 3px;
+    text-align: center;
+  }
+  .heatmap th:first-child { text-align: left; width: 80px; }
+  .heatmap td { padding: 2px 3px; text-align: center; }
+  .heatmap .name-cell {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .heat-cell {
+    width: 38px; height: 26px;
+    border-radius: 5px;
+    display: inline-block;
+  }
+  .heat-0 { background: #eef0f5; }
+  .heat-1 { background: rgba(124, 92, 252, 0.15); }
+  .heat-2 { background: rgba(124, 92, 252, 0.35); }
+  .heat-3 { background: rgba(124, 92, 252, 0.55); }
+  .heat-4 { background: rgba(124, 92, 252, 0.8); }
+
+  /* Awards */
+  .awards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .award-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-radius: 10px;
+  }
+  .award-icon { font-size: 1.2rem; flex-shrink: 0; }
+  .award-label { font-size: 0.65rem; color: var(--text-dim); }
+  .award-winner { font-weight: 700; font-size: 0.82rem; }
+
+  /* Bug Hunter */
+  .bug-list { list-style: none; }
+  .bug-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+  }
+  .bug-item + .bug-item { border-top: 1px solid var(--border); }
+  .bug-pts {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--green);
+    min-width: 28px;
+    text-align: center;
+  }
+  .bug-name { font-weight: 600; font-size: 0.82rem; }
+  .bug-count { font-size: 0.72rem; color: var(--text-dim); }
+
+  /* Scoring */
+  .scoring-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+  }
+  .scoring-row + .scoring-row { border-top: 1px solid var(--border); }
+  .scoring-pts {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--purple);
+    min-width: 36px;
+    text-align: center;
+  }
+  .scoring-desc {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+  .scoring-row.highlight {
+    background: rgba(16,185,129,0.06);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-top: 4px;
+    border-top: none;
+  }
+  .scoring-row.highlight .scoring-pts { color: var(--green); }
+  .scoring-row.highlight .scoring-desc { color: var(--green); }
+
+  /* Footer */
+  .footer {
+    max-width: 1100px;
+    margin: 32px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.68rem;
+  }
+  .footer svg { height: 14px; width: auto; opacity: 0.4; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">
+    <svg viewBox="0 0 641 177.93" xmlns="http://www.w3.org/2000/svg"><g><path fill="#1E033E" d="M601.56,175.37V59.39h35.03v115.99h-35.03ZM618.96,43.61c-5.88,0-10.98-2.09-15.31-6.26-4.33-4.33-6.5-9.51-6.5-15.54s2.17-11.13,6.5-15.31c4.33-4.33,9.43-6.5,15.31-6.5,6.19,0,11.37,2.17,15.54,6.5,4.33,4.18,6.5,9.28,6.5,15.31s-2.17,11.21-6.5,15.54c-4.18,4.18-9.36,6.26-15.54,6.26Z"/><path fill="#1E033E" d="M492.47,138.03c4.95,5.41,11.37,8.12,19.25,8.12s14.23-2.71,19.02-8.12c4.95-5.41,7.42-12.29,7.42-20.65s-2.47-15.23-7.42-20.65c-4.79-5.41-11.14-8.12-19.02-8.12s-14.31,2.71-19.25,8.12c-4.79,5.41-7.19,12.29-7.19,20.65s2.4,15.23,7.19,20.65ZM503.84,177.93c-15,0-27.76-5.95-38.28-17.86-10.36-11.91-15.54-26.14-15.54-42.68s5.18-30.78,15.54-42.68c10.52-11.91,23.28-17.86,38.28-17.86,13.3,0,23.82,4.72,31.55,14.15v-11.6h35.03v115.99h-35.03v-11.6c-7.73,9.43-18.25,14.15-31.55,14.15Z"/><path fill="#1E033E" d="M424.47,170.04c-4.79,4.79-10.59,7.19-17.4,7.19s-12.68-2.4-17.63-7.19c-4.79-4.95-7.19-10.83-7.19-17.63s2.4-12.6,7.19-17.4c4.95-4.95,10.83-7.42,17.63-7.42s12.6,2.47,17.4,7.42c4.95,4.79,7.42,10.59,7.42,17.4s-2.47,12.68-7.42,17.63Z"/><path fill="#1E033E" d="M284.84,137.57c4.95,5.1,11.13,7.66,18.56,7.66s13.53-2.55,18.33-7.66c4.95-5.1,7.42-11.83,7.42-20.18s-2.47-15.08-7.42-20.18c-4.79-5.1-10.9-7.66-18.33-7.66s-13.61,2.55-18.56,7.66c-4.79,5.1-7.19,11.83-7.19,20.18s2.4,15.08,7.19,20.18ZM346.55,160.53c-11.91,11.6-26.29,17.4-43.15,17.4s-31.24-5.8-43.15-17.4c-11.91-11.75-17.86-26.14-17.86-43.15s5.95-31.32,17.86-42.92c11.91-11.75,26.29-17.63,43.15-17.63s31.24,5.88,43.15,17.63c11.91,11.6,17.86,25.9,17.86,42.92s-5.95,31.39-17.86,43.15Z"/><polygon fill="#1E033E" points="127.54 175.38 127.54 148 178.34 90.94 128.23 90.94 128.23 59.39 223.81 59.39 223.81 86.99 173 143.83 225.66 143.83 225.66 175.38 127.54 175.38"/><path fill="#1E033E" d="M66.21,175.37V59.39h35.03v115.99h-35.03ZM83.6,43.61c-5.88,0-10.98-2.09-15.31-6.26-4.33-4.33-6.5-9.51-6.5-15.54s2.17-11.13,6.5-15.31c4.33-4.33,9.43-6.5,15.31-6.5,6.19,0,11.37,2.17,15.54,6.5,4.33,4.18,6.5,9.28,6.5,15.31s-2.17,11.21-6.5,15.54c-4.18,4.18-9.36,6.26-15.54,6.26Z"/><rect fill="#1E033E" x="0" y="1.39" width="35.03" height="173.98"/></g></svg>
+    <h1><span>League</span></h1>
+  </div>
+  <div class="week-label">Jun 30 – Jul 6, 2026</div>
+</div>
+
+<!-- Benchmark -->
+<div class="benchmark">
+  <img class="benchmark-avatar" src="https://avatars.slack-edge.com/2024-07-25/7500598289712_d333f2955a7102300d03_192.png" alt="Tal">
+  <div class="benchmark-info">
+    <div class="benchmark-label">The Benchmark</div>
+    <div class="benchmark-name">Tal</div>
+    <div class="benchmark-badges">
+      <div class="badge active" style="width:20px;height:20px;font-size:0.55rem;">W</div>
+      <div class="badge active" style="width:20px;height:20px;font-size:0.55rem;">C</div>
+      <div class="badge active" style="width:20px;height:20px;font-size:0.55rem;">G</div>
+    </div>
+  </div>
+  <div class="benchmark-stats">
+    <div class="benchmark-stat">
+      <div class="benchmark-stat-value">22.5</div>
+      <div class="benchmark-stat-label">Score</div>
+    </div>
+    <div class="benchmark-stat">
+      <div class="benchmark-stat-value">11</div>
+      <div class="benchmark-stat-label">Sessions</div>
+    </div>
+    <div class="benchmark-stat">
+      <div class="benchmark-stat-value">5/5</div>
+      <div class="benchmark-stat-label">Days</div>
+    </div>
+  </div>
+  <div class="beat-boss">
+    <div class="beat-boss-pts">+10</div>
+    <div class="beat-boss-text">Beat the Boss</div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="main">
+
+    <!-- Podium -->
+    <div class="card">
+      <div class="card-title">Top 3</div>
+      <div class="podium">
+        <div class="podium-slot second">
+          <img class="podium-avatar" src="https://avatars.slack-edge.com/2024-07-25/7490888619953_033f4b8c261dc18bfae3_192.jpg" alt="Oleg">
+          <div class="podium-name">Oleg</div>
+          <div class="podium-score">6.0</div>
+          <div class="podium-bar">2</div>
+        </div>
+        <div class="podium-slot first">
+          <div class="crown">👑</div>
+          <img class="podium-avatar" src="https://avatars.slack-edge.com/2026-01-17/10303463080919_517adbf1bc02069f5119_192.png" alt="Omer">
+          <div class="podium-name">Omer</div>
+          <div class="podium-score">10.5</div>
+          <div class="podium-bar">1</div>
+        </div>
+        <div class="podium-slot third">
+          <img class="podium-avatar" src="https://avatars.slack-edge.com/2026-02-22/10558836715266_7584b59a8f8c0b4c24f5_192.jpg" alt="Eden">
+          <div class="podium-name">Eden</div>
+          <div class="podium-score">3.0</div>
+          <div class="podium-bar">3</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full Leaderboard -->
+    <div class="card">
+      <div class="card-title">Standings</div>
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Player</th>
+            <th>Sessions</th>
+            <th>Platforms</th>
+            <th>Mult</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rank rank-1">1</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2026-01-17/10303463080919_517adbf1bc02069f5119_192.png" alt="Omer">
+                <div><div class="player-name">Omer</div></div>
+              </div>
+            </td>
+            <td>4</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge active">W</div>
+                <div class="badge active">C</div>
+                <div class="badge active">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier">x1.5</span></td>
+            <td class="score-cell">10.5</td>
+          </tr>
+          <tr>
+            <td><span class="rank rank-2">2</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2024-07-25/7490888619953_033f4b8c261dc18bfae3_192.jpg" alt="Oleg">
+                <div><div class="player-name">Oleg</div></div>
+              </div>
+            </td>
+            <td>6</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge active">W</div>
+                <div class="badge inactive">C</div>
+                <div class="badge inactive">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier none">x1</span></td>
+            <td class="score-cell">6.0</td>
+          </tr>
+          <tr>
+            <td><span class="rank rank-3">3</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2026-02-22/10558836715266_7584b59a8f8c0b4c24f5_192.jpg" alt="Eden">
+                <div><div class="player-name">Eden</div></div>
+              </div>
+            </td>
+            <td>3</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge active">W</div>
+                <div class="badge inactive">C</div>
+                <div class="badge inactive">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier none">x1</span></td>
+            <td class="score-cell">3.0</td>
+          </tr>
+          <tr>
+            <td><span class="rank">4</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-04-10/8738860184658_b6196e431f4a7c3bdd38_192.jpg" alt="Dor">
+                <div><div class="player-name">Dor</div></div>
+              </div>
+            </td>
+            <td>2</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge active">W</div>
+                <div class="badge inactive">C</div>
+                <div class="badge inactive">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier none">x1</span></td>
+            <td class="score-cell">2.0</td>
+          </tr>
+          <tr>
+            <td><span class="rank">5</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2026-03-23/10751325843075_962a012a31d3e8161dc6_192.png" alt="Elena">
+                <div><div class="player-name">Elena</div></div>
+              </div>
+            </td>
+            <td>1</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge active">W</div>
+                <div class="badge active">C</div>
+                <div class="badge inactive">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier">x1.5</span></td>
+            <td class="score-cell">1.5</td>
+          </tr>
+          <tr>
+            <td><span class="rank">6</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2026-05-03/11042273841957_a8ead46f675917958c13_192.png" alt="Ohad">
+                <div><div class="player-name">Ohad</div></div>
+              </div>
+            </td>
+            <td>0</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge inactive">W</div>
+                <div class="badge inactive">C</div>
+                <div class="badge inactive">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier none">x1</span></td>
+            <td class="score-cell zero-score">0</td>
+          </tr>
+          <tr>
+            <td><span class="rank">6</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-03-31/8679490552501_e574d08f9d34af3e961a_192.png" alt="Sveto">
+                <div><div class="player-name">Sveto</div></div>
+              </div>
+            </td>
+            <td>0</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge inactive">W</div>
+                <div class="badge inactive">C</div>
+                <div class="badge inactive">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier none">x1</span></td>
+            <td class="score-cell zero-score">0</td>
+          </tr>
+          <tr>
+            <td><span class="rank">6</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2026-04-19/10976227923280_9c33ef9495446ac51aeb_192.png" alt="Meitar">
+                <div><div class="player-name">Meitar</div></div>
+              </div>
+            </td>
+            <td>0</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge inactive">W</div>
+                <div class="badge inactive">C</div>
+                <div class="badge inactive">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier none">x1</span></td>
+            <td class="score-cell zero-score">0</td>
+          </tr>
+          <tr>
+            <td><span class="rank">6</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-06-19/9074913714898_11bca8c2a3a1d7400cda_192.png" alt="Danielle">
+                <div><div class="player-name">Danielle</div></div>
+              </div>
+            </td>
+            <td>0</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge inactive">W</div>
+                <div class="badge inactive">C</div>
+                <div class="badge inactive">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier none">x1</span></td>
+            <td class="score-cell zero-score">0</td>
+          </tr>
+          <tr>
+            <td><span class="rank">6</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-11-18/9938958497254_38a512dcc9a73a92e8da_192.png" alt="Amir">
+                <div><div class="player-name">Amir</div></div>
+              </div>
+            </td>
+            <td>0</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge inactive">W</div>
+                <div class="badge inactive">C</div>
+                <div class="badge inactive">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier none">x1</span></td>
+            <td class="score-cell zero-score">0</td>
+          </tr>
+          <tr>
+            <td><span class="rank">6</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-09-16/9539758661217_0df123994792583a1f1f_192.jpg" alt="Max">
+                <div><div class="player-name">Max</div></div>
+              </div>
+            </td>
+            <td>0</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge inactive">W</div>
+                <div class="badge inactive">C</div>
+                <div class="badge inactive">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier none">x1</span></td>
+            <td class="score-cell zero-score">0</td>
+          </tr>
+          <tr>
+            <td><span class="rank">6</span></td>
+            <td>
+              <div class="player-cell">
+                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-06-23/9102653596433_3d24fd6c7efc4a6d7d8c_192.png" alt="Mike">
+                <div><div class="player-name">Mike</div></div>
+              </div>
+            </td>
+            <td>0</td>
+            <td>
+              <div class="platform-badges">
+                <div class="badge inactive">W</div>
+                <div class="badge inactive">C</div>
+                <div class="badge inactive">G</div>
+              </div>
+            </td>
+            <td><span class="multiplier none">x1</span></td>
+            <td class="score-cell zero-score">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <!-- Activity Heatmap -->
+    <div class="card">
+      <div class="card-title">Activity</div>
+      <table class="heatmap">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name-cell">Omer</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-2"></span></td>
+            <td><span class="heat-cell heat-2"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-3"></span></td>
+          </tr>
+          <tr>
+            <td class="name-cell">Oleg</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-2"></span></td>
+            <td><span class="heat-cell heat-3"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-3"></span></td>
+          </tr>
+          <tr>
+            <td class="name-cell">Eden</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-2"></span></td>
+            <td><span class="heat-cell heat-3"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+          </tr>
+          <tr>
+            <td class="name-cell">Dor</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-3"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+          </tr>
+          <tr>
+            <td class="name-cell">Elena</td>
+            <td><span class="heat-cell heat-2"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+          </tr>
+          <tr>
+            <td class="name-cell">Ohad</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+          </tr>
+          <tr>
+            <td class="name-cell">Sveto</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+          </tr>
+          <tr>
+            <td class="name-cell">Meitar</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+          </tr>
+          <tr>
+            <td class="name-cell">Danielle</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+          </tr>
+          <tr>
+            <td class="name-cell">Amir</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+          </tr>
+          <tr>
+            <td class="name-cell">Max</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+          </tr>
+          <tr>
+            <td class="name-cell">Mike</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Awards -->
+    <div class="card">
+      <div class="card-title">Awards</div>
+      <div class="awards-grid">
+        <div class="award-item">
+          <span class="award-icon">⚡</span>
+          <div>
+            <div class="award-label">Power User</div>
+            <div class="award-winner">Oleg</div>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-icon">🧭</span>
+          <div>
+            <div class="award-label">Explorer</div>
+            <div class="award-winner">Omer</div>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-icon">🐛</span>
+          <div>
+            <div class="award-label">Bug Hunter</div>
+            <div class="award-winner">Omer</div>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-icon">📈</span>
+          <div>
+            <div class="award-label">Rising Star</div>
+            <div class="award-winner" style="color: var(--text-muted);">Week 1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bug Hunter -->
+    <div class="card">
+      <div class="card-title">Bug Reports</div>
+      <ul class="bug-list">
+        <li class="bug-item">
+          <div class="bug-pts">+5</div>
+          <div>
+            <div class="bug-name">Omer</div>
+            <div class="bug-count">1 report in #qa</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Scoring -->
+    <div class="card">
+      <div class="card-title">Scoring</div>
+      <div class="scoring-row">
+        <div class="scoring-pts">1</div>
+        <div class="scoring-desc">per session</div>
+      </div>
+      <div class="scoring-row">
+        <div class="scoring-pts">5</div>
+        <div class="scoring-desc">per bug report</div>
+      </div>
+      <div class="scoring-row">
+        <div class="scoring-pts">x1.5</div>
+        <div class="scoring-desc">2 platforms in a day</div>
+      </div>
+      <div class="scoring-row">
+        <div class="scoring-pts">x2</div>
+        <div class="scoring-desc">all 3 platforms in a day</div>
+      </div>
+      <div class="scoring-row">
+        <div class="scoring-pts">x1.5</div>
+        <div class="scoring-desc">5-day streak bonus</div>
+      </div>
+      <div class="scoring-row highlight">
+        <div class="scoring-pts">+10</div>
+        <div class="scoring-desc">Beat the Boss</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <svg viewBox="0 0 641 177.93" xmlns="http://www.w3.org/2000/svg"><g><path fill="#1E033E" d="M601.56,175.37V59.39h35.03v115.99h-35.03ZM618.96,43.61c-5.88,0-10.98-2.09-15.31-6.26-4.33-4.33-6.5-9.51-6.5-15.54s2.17-11.13,6.5-15.31c4.33-4.33,9.43-6.5,15.31-6.5,6.19,0,11.37,2.17,15.54,6.5,4.33,4.18,6.5,9.28,6.5,15.31s-2.17,11.21-6.5,15.54c-4.18,4.18-9.36,6.26-15.54,6.26Z"/><path fill="#1E033E" d="M492.47,138.03c4.95,5.41,11.37,8.12,19.25,8.12s14.23-2.71,19.02-8.12c4.95-5.41,7.42-12.29,7.42-20.65s-2.47-15.23-7.42-20.65c-4.79-5.41-11.14-8.12-19.02-8.12s-14.31,2.71-19.25,8.12c-4.79,5.41-7.19,12.29-7.19,20.65s2.4,15.23,7.19,20.65ZM503.84,177.93c-15,0-27.76-5.95-38.28-17.86-10.36-11.91-15.54-26.14-15.54-42.68s5.18-30.78,15.54-42.68c10.52-11.91,23.28-17.86,38.28-17.86,13.3,0,23.82,4.72,31.55,14.15v-11.6h35.03v115.99h-35.03v-11.6c-7.73,9.43-18.25,14.15-31.55,14.15Z"/><path fill="#1E033E" d="M424.47,170.04c-4.79,4.79-10.59,7.19-17.4,7.19s-12.68-2.4-17.63-7.19c-4.79-4.95-7.19-10.83-7.19-17.63s2.4-12.6,7.19-17.4c4.95-4.95,10.83-7.42,17.63-7.42s12.6,2.47,17.4,7.42c4.95,4.79,7.42,10.59,7.42,17.4s-2.47,12.68-7.42,17.63Z"/><path fill="#1E033E" d="M284.84,137.57c4.95,5.1,11.13,7.66,18.56,7.66s13.53-2.55,18.33-7.66c4.95-5.1,7.42-11.83,7.42-20.18s-2.47-15.08-7.42-20.18c-4.79-5.1-10.9-7.66-18.33-7.66s-13.61,2.55-18.56,7.66c-4.79,5.1-7.19,11.83-7.19,20.18s2.4,15.08,7.19,20.18ZM346.55,160.53c-11.91,11.6-26.29,17.4-43.15,17.4s-31.24-5.8-43.15-17.4c-11.91-11.75-17.86-26.14-17.86-43.15s5.95-31.32,17.86-42.92c11.91-11.75,26.29-17.63,43.15-17.63s31.24,5.88,43.15,17.63c11.91,11.6,17.86,25.9,17.86,42.92s-5.95,31.39-17.86,43.15Z"/><polygon fill="#1E033E" points="127.54 175.38 127.54 148 178.34 90.94 128.23 90.94 128.23 59.39 223.81 59.39 223.81 86.99 173 143.83 225.66 143.83 225.66 175.38 127.54 175.38"/><path fill="#1E033E" d="M66.21,175.37V59.39h35.03v115.99h-35.03ZM83.6,43.61c-5.88,0-10.98-2.09-15.31-6.26-4.33-4.33-6.5-9.51-6.5-15.54s2.17-11.13,6.5-15.31c4.33-4.33,9.43-6.5,15.31-6.5,6.19,0,11.37,2.17,15.54,6.5,4.33,4.18,6.5,9.28,6.5,15.31s-2.17,11.21-6.5,15.54c-4.18,4.18-9.36,6.26-15.54,6.26Z"/><rect fill="#1E033E" x="0" y="1.39" width="35.03" height="173.98"/></g></svg>
+  <span>Updated daily · Data from PostHog</span>
+</div>
+
+</body>
+</html>
