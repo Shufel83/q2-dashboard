@@ -302,7 +302,7 @@
     padding: 4px 3px;
     text-align: center;
   }
-  .heatmap th:first-child { text-align: left; width: 80px; }
+  .heatmap th:first-child { text-align: left; width: 70px; }
   .heatmap td { padding: 2px 3px; text-align: center; }
   .heatmap .name-cell {
     font-size: 0.72rem;
@@ -311,15 +311,22 @@
     white-space: nowrap;
   }
   .heat-cell {
-    width: 38px; height: 26px;
+    width: 32px; height: 24px;
     border-radius: 5px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: transparent;
   }
   .heat-0 { background: #eef0f5; }
-  .heat-1 { background: rgba(124, 92, 252, 0.15); }
-  .heat-2 { background: rgba(124, 92, 252, 0.35); }
-  .heat-3 { background: rgba(124, 92, 252, 0.55); }
-  .heat-4 { background: rgba(124, 92, 252, 0.8); }
+  .heat-1 { background: rgba(124, 92, 252, 0.15); color: rgba(124, 92, 252, 0.6); }
+  .heat-2 { background: rgba(124, 92, 252, 0.3); color: rgba(124, 92, 252, 0.8); }
+  .heat-3 { background: rgba(124, 92, 252, 0.45); color: rgba(255,255,255,0.8); }
+  .heat-4 { background: rgba(124, 92, 252, 0.6); color: rgba(255,255,255,0.9); }
+  .heat-5 { background: rgba(124, 92, 252, 0.75); color: #fff; }
+  .heat-6 { background: rgba(124, 92, 252, 0.9); color: #fff; }
 
   /* Awards */
   .awards-grid {
@@ -730,35 +737,43 @@
         <thead>
           <tr>
             <th></th>
+            <th>Sun</th>
             <th>Mon</th>
             <th>Tue</th>
             <th>Wed</th>
             <th>Thu</th>
             <th>Fri</th>
+            <th>Sat</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="name-cell">Omer</td>
             <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-2"></span></td>
-            <td><span class="heat-cell heat-2"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-3"></span></td>
+            <td><span class="heat-cell heat-1">1</span></td>
+            <td><span class="heat-cell heat-1">1</span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-2">2</span></td>
+            <td><span class="heat-cell heat-0"></span></td>
           </tr>
           <tr>
             <td class="name-cell">Oleg</td>
             <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-2"></span></td>
-            <td><span class="heat-cell heat-3"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-3"></span></td>
+            <td><span class="heat-cell heat-1">1</span></td>
+            <td><span class="heat-cell heat-3">3</span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-2">2</span></td>
+            <td><span class="heat-cell heat-0"></span></td>
           </tr>
           <tr>
             <td class="name-cell">Eden</td>
             <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-2"></span></td>
-            <td><span class="heat-cell heat-3"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-1">1</span></td>
+            <td><span class="heat-cell heat-2">2</span></td>
+            <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
           </tr>
@@ -766,13 +781,17 @@
             <td class="name-cell">Dor</td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-3"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-2">2</span></td>
+            <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
           </tr>
           <tr>
             <td class="name-cell">Elena</td>
-            <td><span class="heat-cell heat-2"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-1">1</span></td>
+            <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
@@ -780,6 +799,8 @@
           </tr>
           <tr>
             <td class="name-cell">Ohad</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
@@ -793,9 +814,13 @@
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
           </tr>
           <tr>
             <td class="name-cell">Meitar</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
@@ -809,9 +834,13 @@
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
           </tr>
           <tr>
             <td class="name-cell">Amir</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
@@ -825,9 +854,13 @@
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
           </tr>
           <tr>
             <td class="name-cell">Mike</td>
+            <td><span class="heat-cell heat-0"></span></td>
+            <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
             <td><span class="heat-cell heat-0"></span></td>
