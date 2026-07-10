@@ -530,7 +530,7 @@
     <svg viewBox="0 0 641 177.93" xmlns="http://www.w3.org/2000/svg"><g><path fill="#1E033E" d="M601.56,175.37V59.39h35.03v115.99h-35.03ZM618.96,43.61c-5.88,0-10.98-2.09-15.31-6.26-4.33-4.33-6.5-9.51-6.5-15.54s2.17-11.13,6.5-15.31c4.33-4.33,9.43-6.5,15.31-6.5,6.19,0,11.37,2.17,15.54,6.5,4.33,4.18,6.5,9.28,6.5,15.31s-2.17,11.21-6.5,15.54c-4.18,4.18-9.36,6.26-15.54,6.26Z"/><path fill="#1E033E" d="M492.47,138.03c4.95,5.41,11.37,8.12,19.25,8.12s14.23-2.71,19.02-8.12c4.95-5.41,7.42-12.29,7.42-20.65s-2.47-15.23-7.42-20.65c-4.79-5.41-11.14-8.12-19.02-8.12s-14.31,2.71-19.25,8.12c-4.79,5.41-7.19,12.29-7.19,20.65s2.4,15.23,7.19,20.65ZM503.84,177.93c-15,0-27.76-5.95-38.28-17.86-10.36-11.91-15.54-26.14-15.54-42.68s5.18-30.78,15.54-42.68c10.52-11.91,23.28-17.86,38.28-17.86,13.3,0,23.82,4.72,31.55,14.15v-11.6h35.03v115.99h-35.03v-11.6c-7.73,9.43-18.25,14.15-31.55,14.15Z"/><path fill="#1E033E" d="M424.47,170.04c-4.79,4.79-10.59,7.19-17.4,7.19s-12.68-2.4-17.63-7.19c-4.79-4.95-7.19-10.83-7.19-17.63s2.4-12.6,7.19-17.4c4.95-4.95,10.83-7.42,17.63-7.42s12.6,2.47,17.4,7.42c4.95,4.79,7.42,10.59,7.42,17.4s-2.47,12.68-7.42,17.63Z"/><path fill="#1E033E" d="M284.84,137.57c4.95,5.1,11.13,7.66,18.56,7.66s13.53-2.55,18.33-7.66c4.95-5.1,7.42-11.83,7.42-20.18s-2.47-15.08-7.42-20.18c-4.79-5.1-10.9-7.66-18.33-7.66s-13.61,2.55-18.56,7.66c-4.79,5.1-7.19,11.83-7.19,20.18s2.4,15.08,7.19,20.18ZM346.55,160.53c-11.91,11.6-26.29,17.4-43.15,17.4s-31.24-5.8-43.15-17.4c-11.91-11.75-17.86-26.14-17.86-43.15s5.95-31.32,17.86-42.92c11.91-11.75,26.29-17.63,43.15-17.63s31.24,5.88,43.15,17.63c11.91,11.6,17.86,25.9,17.86,42.92s-5.95,31.39-17.86,43.15Z"/><polygon fill="#1E033E" points="127.54 175.38 127.54 148 178.34 90.94 128.23 90.94 128.23 59.39 223.81 59.39 223.81 86.99 173 143.83 225.66 143.83 225.66 175.38 127.54 175.38"/><path fill="#1E033E" d="M66.21,175.37V59.39h35.03v115.99h-35.03ZM83.6,43.61c-5.88,0-10.98-2.09-15.31-6.26-4.33-4.33-6.5-9.51-6.5-15.54s2.17-11.13,6.5-15.31c4.33-4.33,9.43-6.5,15.31-6.5,6.19,0,11.37,2.17,15.54,6.5,4.33,4.18,6.5,9.28,6.5,15.31s-2.17,11.21-6.5,15.54c-4.18,4.18-9.36,6.26-15.54,6.26Z"/><rect fill="#1E033E" x="0" y="1.39" width="35.03" height="173.98"/></g></svg>
     <h1><span>League</span></h1>
   </div>
-  <div class="week-label">Jun 30 – Jul 6, 2026</div>
+  <div class="week-label" id="week-label"></div>
 </div>
 
 <!-- Benchmark -->
@@ -545,24 +545,8 @@
       <div class="badge active" style="width:20px;height:20px;font-size:0.55rem;">G</div>
     </div>
   </div>
-  <div class="benchmark-stats">
-    <div class="benchmark-stat">
-      <div class="benchmark-stat-value">22.5</div>
-      <div class="benchmark-stat-label">Score</div>
-    </div>
-    <div class="benchmark-stat">
-      <div class="benchmark-stat-value">11</div>
-      <div class="benchmark-stat-label">Sessions</div>
-    </div>
-    <div class="benchmark-stat">
-      <div class="benchmark-stat-value">5/5</div>
-      <div class="benchmark-stat-label">Days</div>
-    </div>
-  </div>
-  <div class="beat-boss">
-    <div class="beat-boss-pts">+10</div>
-    <div class="beat-boss-text">Beat the Boss</div>
-  </div>
+  <div class="benchmark-stats" id="benchmark-stats"></div>
+  <div class="beat-boss" id="beat-boss"></div>
 </div>
 
 <div class="tab-bar">
@@ -577,27 +561,7 @@
     <!-- Podium -->
     <div class="card">
       <div class="card-title">Top 3</div>
-      <div class="podium">
-        <div class="podium-slot second">
-          <img class="podium-avatar" src="https://avatars.slack-edge.com/2024-07-25/7490888619953_033f4b8c261dc18bfae3_192.jpg" alt="Oleg">
-          <div class="podium-name">Oleg</div>
-          <div class="podium-score">6.0</div>
-          <div class="podium-bar">2</div>
-        </div>
-        <div class="podium-slot first">
-          <div class="crown">👑</div>
-          <img class="podium-avatar" src="https://avatars.slack-edge.com/2026-01-17/10303463080919_517adbf1bc02069f5119_192.png" alt="Omer">
-          <div class="podium-name">Omer</div>
-          <div class="podium-score">10.5</div>
-          <div class="podium-bar">1</div>
-        </div>
-        <div class="podium-slot third">
-          <img class="podium-avatar" src="https://avatars.slack-edge.com/2026-02-22/10558836715266_7584b59a8f8c0b4c24f5_192.jpg" alt="Eden">
-          <div class="podium-name">Eden</div>
-          <div class="podium-score">3.0</div>
-          <div class="podium-bar">3</div>
-        </div>
-      </div>
+      <div class="podium" id="podium"></div>
     </div>
 
     <!-- Full Leaderboard -->
@@ -614,235 +578,8 @@
             <th>Score</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><span class="rank rank-1">1</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2026-01-17/10303463080919_517adbf1bc02069f5119_192.png" alt="Omer">
-                <div><div class="player-name">Omer</div></div>
-              </div>
-            </td>
-            <td>4</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge active">W</div>
-                <div class="badge active">C</div>
-                <div class="badge active">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier">x1.5</span></td>
-            <td class="score-cell">10.5</td>
-          </tr>
-          <tr>
-            <td><span class="rank rank-2">2</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2024-07-25/7490888619953_033f4b8c261dc18bfae3_192.jpg" alt="Oleg">
-                <div><div class="player-name">Oleg</div></div>
-              </div>
-            </td>
-            <td>6</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge active">W</div>
-                <div class="badge inactive">C</div>
-                <div class="badge inactive">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier none">x1</span></td>
-            <td class="score-cell">6.0</td>
-          </tr>
-          <tr>
-            <td><span class="rank rank-3">3</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2026-02-22/10558836715266_7584b59a8f8c0b4c24f5_192.jpg" alt="Eden">
-                <div><div class="player-name">Eden</div></div>
-              </div>
-            </td>
-            <td>3</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge active">W</div>
-                <div class="badge inactive">C</div>
-                <div class="badge inactive">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier none">x1</span></td>
-            <td class="score-cell">3.0</td>
-          </tr>
-          <tr>
-            <td><span class="rank">4</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-04-10/8738860184658_b6196e431f4a7c3bdd38_192.jpg" alt="Dor">
-                <div><div class="player-name">Dor</div></div>
-              </div>
-            </td>
-            <td>2</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge active">W</div>
-                <div class="badge inactive">C</div>
-                <div class="badge inactive">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier none">x1</span></td>
-            <td class="score-cell">2.0</td>
-          </tr>
-          <tr>
-            <td><span class="rank">5</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2026-03-23/10751325843075_962a012a31d3e8161dc6_192.png" alt="Elena">
-                <div><div class="player-name">Elena</div></div>
-              </div>
-            </td>
-            <td>1</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge active">W</div>
-                <div class="badge active">C</div>
-                <div class="badge inactive">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier">x1.5</span></td>
-            <td class="score-cell">1.5</td>
-          </tr>
-          <tr>
-            <td><span class="rank">6</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2026-05-03/11042273841957_a8ead46f675917958c13_192.png" alt="Ohad">
-                <div><div class="player-name">Ohad</div></div>
-              </div>
-            </td>
-            <td>0</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge inactive">W</div>
-                <div class="badge inactive">C</div>
-                <div class="badge inactive">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier none">x1</span></td>
-            <td class="score-cell zero-score">0</td>
-          </tr>
-          <tr>
-            <td><span class="rank">6</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-03-31/8679490552501_e574d08f9d34af3e961a_192.png" alt="Sveto">
-                <div><div class="player-name">Sveto</div></div>
-              </div>
-            </td>
-            <td>0</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge inactive">W</div>
-                <div class="badge inactive">C</div>
-                <div class="badge inactive">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier none">x1</span></td>
-            <td class="score-cell zero-score">0</td>
-          </tr>
-          <tr>
-            <td><span class="rank">6</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2026-04-19/10976227923280_9c33ef9495446ac51aeb_192.png" alt="Meitar">
-                <div><div class="player-name">Meitar</div></div>
-              </div>
-            </td>
-            <td>0</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge inactive">W</div>
-                <div class="badge inactive">C</div>
-                <div class="badge inactive">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier none">x1</span></td>
-            <td class="score-cell zero-score">0</td>
-          </tr>
-          <tr>
-            <td><span class="rank">6</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-06-19/9074913714898_11bca8c2a3a1d7400cda_192.png" alt="Danielle">
-                <div><div class="player-name">Danielle</div></div>
-              </div>
-            </td>
-            <td>0</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge inactive">W</div>
-                <div class="badge inactive">C</div>
-                <div class="badge inactive">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier none">x1</span></td>
-            <td class="score-cell zero-score">0</td>
-          </tr>
-          <tr>
-            <td><span class="rank">6</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-11-18/9938958497254_38a512dcc9a73a92e8da_192.png" alt="Amir">
-                <div><div class="player-name">Amir</div></div>
-              </div>
-            </td>
-            <td>0</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge inactive">W</div>
-                <div class="badge inactive">C</div>
-                <div class="badge inactive">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier none">x1</span></td>
-            <td class="score-cell zero-score">0</td>
-          </tr>
-          <tr>
-            <td><span class="rank">6</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-09-16/9539758661217_0df123994792583a1f1f_192.jpg" alt="Max">
-                <div><div class="player-name">Max</div></div>
-              </div>
-            </td>
-            <td>0</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge inactive">W</div>
-                <div class="badge inactive">C</div>
-                <div class="badge inactive">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier none">x1</span></td>
-            <td class="score-cell zero-score">0</td>
-          </tr>
-          <tr>
-            <td><span class="rank">6</span></td>
-            <td>
-              <div class="player-cell">
-                <img class="player-avatar" src="https://avatars.slack-edge.com/2025-06-23/9102653596433_3d24fd6c7efc4a6d7d8c_192.png" alt="Mike">
-                <div><div class="player-name">Mike</div></div>
-              </div>
-            </td>
-            <td>0</td>
-            <td>
-              <div class="platform-badges">
-                <div class="badge inactive">W</div>
-                <div class="badge inactive">C</div>
-                <div class="badge inactive">G</div>
-              </div>
-            </td>
-            <td><span class="multiplier none">x1</span></td>
-            <td class="score-cell zero-score">0</td>
-          </tr>
+        <tbody id="weekly-body">
+          <!-- JS-rendered -->
         </tbody>
       </table>
     </div>
@@ -867,178 +604,20 @@
             <th>Sat</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td class="name-cell">Omer</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-1">1</span></td>
-            <td><span class="heat-cell heat-1">1</span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-2">2</span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-          <tr>
-            <td class="name-cell">Oleg</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-1">1</span></td>
-            <td><span class="heat-cell heat-3">3</span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-2">2</span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-          <tr>
-            <td class="name-cell">Eden</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-1">1</span></td>
-            <td><span class="heat-cell heat-2">2</span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-          <tr>
-            <td class="name-cell">Dor</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-2">2</span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-          <tr>
-            <td class="name-cell">Elena</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-1">1</span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-          <tr>
-            <td class="name-cell">Ohad</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-          <tr>
-            <td class="name-cell">Sveto</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-          <tr>
-            <td class="name-cell">Meitar</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-          <tr>
-            <td class="name-cell">Danielle</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-          <tr>
-            <td class="name-cell">Amir</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-          <tr>
-            <td class="name-cell">Max</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-          <tr>
-            <td class="name-cell">Mike</td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-            <td><span class="heat-cell heat-0"></span></td>
-          </tr>
-        </tbody>
+        <tbody id="heatmap-body"></tbody>
       </table>
     </div>
 
     <!-- Awards -->
     <div class="card">
       <div class="card-title">Awards</div>
-      <div class="awards-grid">
-        <div class="award-item">
-          <span class="award-icon">⚡</span>
-          <div>
-            <div class="award-label">Power User</div>
-            <div class="award-winner">Oleg</div>
-          </div>
-        </div>
-        <div class="award-item">
-          <span class="award-icon">🧭</span>
-          <div>
-            <div class="award-label">Explorer</div>
-            <div class="award-winner">Omer</div>
-          </div>
-        </div>
-        <div class="award-item">
-          <span class="award-icon">🐛</span>
-          <div>
-            <div class="award-label">Bug Hunter</div>
-            <div class="award-winner">Omer</div>
-          </div>
-        </div>
-        <div class="award-item">
-          <span class="award-icon">📈</span>
-          <div>
-            <div class="award-label">Rising Star</div>
-            <div class="award-winner" style="color: var(--text-muted);">Week 1</div>
-          </div>
-        </div>
-      </div>
+      <div class="awards-grid" id="awards"></div>
     </div>
 
     <!-- Bug Hunter -->
     <div class="card">
       <div class="card-title">Bug Reports</div>
-      <ul class="bug-list">
-        <li class="bug-item">
-          <div class="bug-pts">+5</div>
-          <div>
-            <div class="bug-name">Omer</div>
-            <div class="bug-count">1 report in #qa</div>
-          </div>
-        </li>
-      </ul>
+      <ul class="bug-list" id="bug-list"></ul>
     </div>
 
     <!-- Scoring -->
@@ -1129,38 +708,56 @@ const LEAGUE_WEEKS = [
     label: 'Jun 30 - Jul 6',
     benchmark: { score: 22.5, sessions: 11, days: 5 },
     players: [
-      { name: 'Omer', score: 10.5, sessions: 4, bugs: 1 },
-      { name: 'Oleg', score: 6.0, sessions: 6, bugs: 0 },
-      { name: 'Eden', score: 3.0, sessions: 3, bugs: 0 },
-      { name: 'Dor', score: 2.0, sessions: 2, bugs: 0 },
-      { name: 'Elena', score: 1.5, sessions: 1, bugs: 0 },
-      { name: 'Ohad', score: 0, sessions: 0, bugs: 0 },
-      { name: 'Sveto', score: 0, sessions: 0, bugs: 0 },
-      { name: 'Meitar', score: 0, sessions: 0, bugs: 0 },
-      { name: 'Danielle', score: 0, sessions: 0, bugs: 0 },
-      { name: 'Amir', score: 0, sessions: 0, bugs: 0 },
-      { name: 'Max', score: 0, sessions: 0, bugs: 0 },
-      { name: 'Mike', score: 0, sessions: 0, bugs: 0 },
-    ]
+      { name: 'Omer', score: 10.5, sessions: 4, bugs: 1, webSessions: 2, mcpSessions: 2, mult: 1.5 },
+      { name: 'Oleg', score: 6.0, sessions: 6, bugs: 0, webSessions: 6, mcpSessions: 0, mult: 1 },
+      { name: 'Eden', score: 3.0, sessions: 3, bugs: 0, webSessions: 3, mcpSessions: 0, mult: 1 },
+      { name: 'Dor', score: 2.0, sessions: 2, bugs: 0, webSessions: 2, mcpSessions: 0, mult: 1 },
+      { name: 'Elena', score: 1.5, sessions: 1, bugs: 0, webSessions: 1, mcpSessions: 0, mult: 1.5 },
+      { name: 'Ohad', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+      { name: 'Sveto', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+      { name: 'Meitar', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+      { name: 'Danielle', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+      { name: 'Amir', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+      { name: 'Max', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+      { name: 'Mike', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+    ],
+    daily: {
+      'Omer': {'2026-07-01':1,'2026-07-02':1,'2026-07-04':2},
+      'Oleg': {'2026-07-01':1,'2026-07-02':3,'2026-07-04':2},
+      'Eden': {'2026-07-01':1,'2026-07-02':2},
+      'Dor': {'2026-07-02':2},
+      'Elena': {'2026-06-30':1}
+    }
   },
-    {
+  {
     week: 2,
     label: 'Jul 6 - Jul 12',
     benchmark: { score: 16.5, sessions: 11, days: 3 },
     players: [
-      { name: 'Ohad', score: 20.7, sessions: 8, bugs: 2 },
-      { name: 'Danielle', score: 19, sessions: 4, bugs: 3 },
-      { name: 'Amir', score: 15, sessions: 0, bugs: 3 },
-      { name: 'Oleg', score: 10, sessions: 10, bugs: 0 },
-      { name: 'Omer', score: 9.3, sessions: 7, bugs: 0 },
-      { name: 'Eden', score: 8, sessions: 8, bugs: 0 },
-      { name: 'Max', score: 8, sessions: 8, bugs: 0 },
-      { name: 'Meitar', score: 6, sessions: 6, bugs: 0 },
-      { name: 'Elena', score: 5, sessions: 4, bugs: 0 },
-      { name: 'Dor', score: 5, sessions: 5, bugs: 0 },
-      { name: 'Sveto', score: 0, sessions: 0, bugs: 0 },
-      { name: 'Mike', score: 0, sessions: 0, bugs: 0 },
-    ]
+      { name: 'Ohad', score: 10.7, sessions: 8, bugs: 0, webSessions: 5, mcpSessions: 3, mult: 1.33 },
+      { name: 'Oleg', score: 10.0, sessions: 10, bugs: 0, webSessions: 10, mcpSessions: 0, mult: 1 },
+      { name: 'Omer', score: 9.3, sessions: 7, bugs: 0, webSessions: 3, mcpSessions: 4, mult: 1.33 },
+      { name: 'Eden', score: 8.0, sessions: 8, bugs: 0, webSessions: 8, mcpSessions: 0, mult: 1 },
+      { name: 'Max', score: 8.0, sessions: 8, bugs: 0, webSessions: 8, mcpSessions: 0, mult: 1 },
+      { name: 'Meitar', score: 7.0, sessions: 7, bugs: 0, webSessions: 7, mcpSessions: 0, mult: 1 },
+      { name: 'Elena', score: 5.0, sessions: 4, bugs: 0, webSessions: 2, mcpSessions: 2, mult: 1.25 },
+      { name: 'Dor', score: 5.0, sessions: 5, bugs: 0, webSessions: 5, mcpSessions: 0, mult: 1 },
+      { name: 'Danielle', score: 4.0, sessions: 4, bugs: 0, webSessions: 4, mcpSessions: 0, mult: 1 },
+      { name: 'Sveto', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+      { name: 'Amir', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+      { name: 'Mike', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+    ],
+    daily: {
+      'Ohad': {'2026-07-07':1,'2026-07-08':1,'2026-07-09':1},
+      'Oleg': {'2026-07-07':1,'2026-07-08':1,'2026-07-09':1},
+      'Omer': {'2026-07-06':1,'2026-07-07':1,'2026-07-08':1},
+      'Eden': {'2026-07-06':1,'2026-07-07':1,'2026-07-08':1,'2026-07-09':1},
+      'Max': {'2026-07-06':1,'2026-07-07':1,'2026-07-08':1,'2026-07-09':1},
+      'Meitar': {'2026-07-08':1,'2026-07-09':1,'2026-07-10':1},
+      'Elena': {'2026-07-06':1,'2026-07-07':1},
+      'Dor': {'2026-07-06':1,'2026-07-09':1},
+      'Danielle': {'2026-07-07':1,'2026-07-09':1}
+    }
   }
 ];
 
@@ -1239,6 +836,107 @@ function renderSeason() {
   }).join('');
 }
 
+function renderWeekly() {
+  const week = LEAGUE_WEEKS[LEAGUE_WEEKS.length - 1];
+  const sorted = [...week.players].sort((a, b) => b.score - a.score);
+  const bm = week.benchmark;
+
+  document.getElementById('week-label').textContent = week.label + ', 2026';
+
+  document.getElementById('benchmark-stats').innerHTML = `
+    <div class="benchmark-stat"><div class="benchmark-stat-value">${bm.score}</div><div class="benchmark-stat-label">Score</div></div>
+    <div class="benchmark-stat"><div class="benchmark-stat-value">${bm.sessions}</div><div class="benchmark-stat-label">Sessions</div></div>
+    <div class="benchmark-stat"><div class="benchmark-stat-value">${bm.days}/5</div><div class="benchmark-stat-label">Days</div></div>`;
+
+  const topScore = sorted[0]?.score || 0;
+  const gap = Math.round(bm.score - topScore);
+  document.getElementById('beat-boss').innerHTML = `
+    <div class="beat-boss-pts">${gap > 0 ? '+' + gap : '0'}</div>
+    <div class="beat-boss-text">Beat the Boss</div>`;
+
+  const top3 = sorted.slice(0, 3);
+  const slots = ['second', 'first', 'third'];
+  const order = [top3[1], top3[0], top3[2]].filter(Boolean);
+  document.getElementById('podium').innerHTML = order.map((p, i) => {
+    const cls = slots[i];
+    const crown = cls === 'first' ? '<div class="crown">👑</div>' : '';
+    return `<div class="podium-slot ${cls}">
+      ${crown}
+      <img class="podium-avatar" src="${AVATARS[p.name]}" alt="${p.name}">
+      <div class="podium-name">${p.name}</div>
+      <div class="podium-score">${p.score.toFixed(1)}</div>
+      <div class="podium-bar">${cls === 'first' ? 1 : cls === 'second' ? 2 : 3}</div>
+    </div>`;
+  }).join('');
+
+  let rank = 0, prevScore = -1;
+  document.getElementById('weekly-body').innerHTML = sorted.map((p, i) => {
+    if (p.score !== prevScore) { rank = i + 1; prevScore = p.score; }
+    const rankClass = rank <= 3 ? ` rank-${rank}` : '';
+    const scoreClass = p.score === 0 ? ' zero-score' : '';
+    const hasWeb = p.webSessions > 0;
+    const hasMcp = p.mcpSessions > 0;
+    const multClass = p.mult > 1 ? '' : ' none';
+    return `<tr>
+      <td><span class="rank${rankClass}">${rank}</span></td>
+      <td><div class="player-cell">
+        <img class="player-avatar" src="${AVATARS[p.name]}" alt="${p.name}">
+        <div><div class="player-name">${p.name}</div></div>
+      </div></td>
+      <td>${p.sessions}</td>
+      <td><div class="platform-badges">
+        <div class="badge ${hasWeb ? 'active' : 'inactive'}">W</div>
+        <div class="badge ${hasMcp ? 'active' : 'inactive'}">C</div>
+        <div class="badge inactive">G</div>
+      </div></td>
+      <td><span class="multiplier${multClass}">x${p.mult}</span></td>
+      <td class="score-cell${scoreClass}">${p.score === 0 ? '0' : p.score.toFixed(1)}</td>
+    </tr>`;
+  }).join('');
+
+  const daily = week.daily || {};
+  const startDate = new Date(week.label.split(' - ')[0] + ', 2026');
+  const days = [];
+  for (let d = new Date(startDate); days.length < 7; d.setDate(d.getDate() + 1)) {
+    days.push(d.toISOString().split('T')[0]);
+  }
+  const activeNames = sorted.filter(p => p.score > 0).map(p => p.name);
+  const inactiveNames = sorted.filter(p => p.score === 0).map(p => p.name);
+  document.getElementById('heatmap-body').innerHTML = [...activeNames, ...inactiveNames].map(name => {
+    const nd = daily[name] || {};
+    return `<tr><td class="name-cell">${name}</td>${days.map(d => {
+      const v = nd[d] || 0;
+      const heat = v === 0 ? 'heat-0' : v <= 1 ? 'heat-1' : v <= 2 ? 'heat-2' : 'heat-3';
+      return `<td><span class="heat-cell ${heat}">${v || ''}</span></td>`;
+    }).join('')}</tr>`;
+  }).join('');
+
+  const mostSessions = sorted.reduce((a, b) => a.sessions >= b.sessions ? a : b);
+  const mostPlatforms = sorted.reduce((a, b) => a.mult >= b.mult ? a : b);
+  const bugHunter = sorted.find(p => p.bugs > 0);
+  const prevWeek = LEAGUE_WEEKS.length > 1 ? LEAGUE_WEEKS[LEAGUE_WEEKS.length - 2] : null;
+  let risingStar = null;
+  if (prevWeek) {
+    let bestGain = 0;
+    sorted.forEach(p => {
+      const prev = prevWeek.players.find(pp => pp.name === p.name);
+      const prevScore = prev?.score || 0;
+      const gain = p.score - prevScore;
+      if (gain > bestGain) { bestGain = gain; risingStar = p.name; }
+    });
+  }
+  document.getElementById('awards').innerHTML = `
+    <div class="award-item"><span class="award-icon">⚡</span><div><div class="award-label">Power User</div><div class="award-winner">${mostSessions.sessions > 0 ? mostSessions.name : '-'}</div></div></div>
+    <div class="award-item"><span class="award-icon">🧭</span><div><div class="award-label">Explorer</div><div class="award-winner">${mostPlatforms.mult > 1 ? mostPlatforms.name : '-'}</div></div></div>
+    <div class="award-item"><span class="award-icon">🐛</span><div><div class="award-label">Bug Hunter</div><div class="award-winner">${bugHunter ? bugHunter.name : '-'}</div></div></div>
+    <div class="award-item"><span class="award-icon">📈</span><div><div class="award-label">Rising Star</div><div class="award-winner">${risingStar || '<span style="color:var(--text-muted)">Week ' + week.week + '</span>'}</div></div></div>`;
+
+  const bugReporters = sorted.filter(p => p.bugs > 0).sort((a, b) => b.bugs - a.bugs);
+  document.getElementById('bug-list').innerHTML = bugReporters.length > 0
+    ? bugReporters.map(p => `<li class="bug-item"><div class="bug-pts">+${p.bugs * 5}</div><div><div class="bug-name">${p.name}</div><div class="bug-count">${p.bugs} report${p.bugs > 1 ? 's' : ''} in #qa</div></div></li>`).join('')
+    : '<li class="bug-item" style="color:var(--text-muted)">No reports yet this week</li>';
+}
+
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
@@ -1246,6 +944,7 @@ function switchTab(tab) {
   event.target.classList.add('active');
 }
 
+renderWeekly();
 renderSeason();
 </script>
 </body>
