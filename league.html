@@ -248,6 +248,21 @@
     font-size: 0.85rem;
   }
   .lb-table tbody tr:last-child td { border-bottom: none; }
+  .lb-table .reference-row td {
+    background: rgba(16, 185, 129, 0.06);
+  }
+  .lb-table .reference-row .player-name::after {
+    content: 'REF';
+    font-size: 0.48rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--green);
+    margin-left: 6px;
+    padding: 1px 5px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 4px;
+    vertical-align: middle;
+  }
 
   .rank { font-weight: 800; width: 26px; display: inline-block; text-align: center; }
   .rank-1 { color: var(--gold); }
@@ -700,6 +715,7 @@ const AVATARS = {
   'Amir': 'https://avatars.slack-edge.com/2025-11-18/9938958497254_38a512dcc9a73a92e8da_192.png',
   'Max': 'https://avatars.slack-edge.com/2025-09-16/9539758661217_0df123994792583a1f1f_192.jpg',
   'Mike': 'https://avatars.slack-edge.com/2025-06-23/9102653596433_3d24fd6c7efc4a6d7d8c_192.png',
+  'Shuf': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%2310b981'/%3E%3Ctext x='50' y='67' text-anchor='middle' fill='white' font-size='42' font-weight='bold' font-family='Inter,sans-serif'%3ES%3C/text%3E%3C/svg%3E",
 };
 
 const LEAGUE_WEEKS = [
@@ -720,13 +736,15 @@ const LEAGUE_WEEKS = [
       { name: 'Amir', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
       { name: 'Max', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
       { name: 'Mike', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+      { name: 'Shuf', score: 5, sessions: 5, bugs: 0, webSessions: 0, mcpSessions: 5, mult: 1, reference: true },
     ],
     daily: {
       'Omer': {'2026-07-01':1,'2026-07-02':1,'2026-07-04':2},
       'Oleg': {'2026-07-01':1,'2026-07-02':3,'2026-07-04':2},
       'Eden': {'2026-07-01':1,'2026-07-02':2},
       'Dor': {'2026-07-02':2},
-      'Elena': {'2026-06-30':1}
+      'Elena': {'2026-06-30':1},
+      'Shuf': {'2026-07-04':1,'2026-07-05':1,'2026-07-06':1}
     }
   },
   {
@@ -746,6 +764,7 @@ const LEAGUE_WEEKS = [
       { name: 'Dor', score: 5, sessions: 5, bugs: 0, webSessions: 5, mcpSessions: 0, mult: 1 },
       { name: 'Sveto', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
       { name: 'Mike', score: 0, sessions: 0, bugs: 0, webSessions: 0, mcpSessions: 0, mult: 1 },
+      { name: 'Shuf', score: 12, sessions: 12, bugs: 0, webSessions: 0, mcpSessions: 12, mult: 1, reference: true },
     ],
     daily: {
       'Danielle': {'2026-07-07':1,'2026-07-09':1,'2026-07-11':1},
@@ -757,7 +776,8 @@ const LEAGUE_WEEKS = [
       'Meitar': {'2026-07-08':1,'2026-07-09':1,'2026-07-10':1},
       'Elena': {'2026-07-06':1,'2026-07-07':1},
       'Dor': {'2026-07-06':1,'2026-07-09':1},
-      'Tal': {'2026-07-06':1,'2026-07-07':1,'2026-07-09':1,'2026-07-11':1}
+      'Tal': {'2026-07-06':1,'2026-07-07':1,'2026-07-09':1,'2026-07-11':1},
+      'Shuf': {'2026-07-06':1,'2026-07-07':1,'2026-07-08':1,'2026-07-09':1,'2026-07-10':1,'2026-07-11':1,'2026-07-12':1}
     }
   }
 ];
@@ -768,13 +788,14 @@ function computeSeason() {
   const bestWeek = {};
 
   LEAGUE_WEEKS.forEach(week => {
-    const sorted = [...week.players].sort((a, b) => b.score - a.score);
+    const competitors = week.players.filter(p => !p.reference);
+    const sorted = [...competitors].sort((a, b) => b.score - a.score);
     const champion = sorted[0];
     if (champion && champion.score > 0) {
       wins[champion.name] = (wins[champion.name] || 0) + 1;
     }
 
-    week.players.forEach(p => {
+    competitors.forEach(p => {
       totals[p.name] = (totals[p.name] || 0) + p.score;
       if (!bestWeek[p.name] || p.score > bestWeek[p.name]) {
         bestWeek[p.name] = p.score;
@@ -839,7 +860,9 @@ function renderSeason() {
 
 function renderWeekly() {
   const week = LEAGUE_WEEKS[LEAGUE_WEEKS.length - 1];
-  const sorted = [...week.players].sort((a, b) => b.score - a.score);
+  const competitors = week.players.filter(p => !p.reference);
+  const refs = week.players.filter(p => p.reference);
+  const sorted = [...competitors].sort((a, b) => b.score - a.score);
   const bm = week.benchmark;
 
   document.getElementById('week-label').textContent = week.label + ', 2026';
@@ -875,7 +898,7 @@ function renderWeekly() {
   }).join('');
 
   let rank = 0, prevScore = -1;
-  document.getElementById('weekly-body').innerHTML = sorted.map((p, i) => {
+  const competitorRows = sorted.map((p, i) => {
     if (p.score !== prevScore) { rank = i + 1; prevScore = p.score; }
     const rankClass = rank <= 3 ? ` rank-${rank}` : '';
     const scoreClass = p.score === 0 ? ' zero-score' : '';
@@ -898,6 +921,27 @@ function renderWeekly() {
       <td class="score-cell${scoreClass}">${p.score === 0 ? '0' : p.score.toFixed(1)}</td>
     </tr>`;
   }).join('');
+  const refRows = refs.map(p => {
+    const hasWeb = p.webSessions > 0;
+    const hasMcp = p.mcpSessions > 0;
+    const multClass = p.mult > 1 ? '' : ' none';
+    return `<tr class="reference-row">
+      <td><span class="rank" style="color:var(--green)">-</span></td>
+      <td><div class="player-cell">
+        <img class="player-avatar" src="${AVATARS[p.name]}" alt="${p.name}" style="border-color:var(--green)">
+        <div><div class="player-name">${p.name}</div></div>
+      </div></td>
+      <td>${p.sessions}</td>
+      <td><div class="platform-badges">
+        <div class="badge ${hasWeb ? 'active' : 'inactive'}">W</div>
+        <div class="badge ${hasMcp ? 'active' : 'inactive'}">C</div>
+        <div class="badge inactive">G</div>
+      </div></td>
+      <td><span class="multiplier${multClass}">x${p.mult}</span></td>
+      <td class="score-cell">${p.score.toFixed(1)}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('weekly-body').innerHTML = competitorRows + refRows;
 
   const daily = week.daily || {};
   const startDate = new Date(week.label.split(' - ')[0] + ', 2026');
