@@ -851,9 +851,13 @@ function renderWeekly() {
 
   const topScore = sorted[0]?.score || 0;
   const gap = Math.round(bm.score - topScore);
+  const beaten = gap < 0;
+  const bbPts = beaten ? Math.abs(gap) : (gap > 0 ? '+' + gap : '—');
+  const bbText = beaten ? 'Boss beaten by ' + Math.abs(gap) : (gap > 0 ? 'Points to beat' : 'Tied with boss');
+  const bbColor = beaten ? 'var(--red)' : 'var(--green)';
   document.getElementById('beat-boss').innerHTML = `
-    <div class="beat-boss-pts">${gap > 0 ? '+' + gap : '0'}</div>
-    <div class="beat-boss-text">Beat the Boss</div>`;
+    <div class="beat-boss-pts" style="color:${bbColor}">${beaten ? '🏆' : bbPts}</div>
+    <div class="beat-boss-text">${bbText}</div>`;
 
   const top3 = sorted.slice(0, 3);
   const slots = ['second', 'first', 'third'];
