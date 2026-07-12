@@ -685,10 +685,6 @@
       <div id="champions-list"></div>
     </div>
   </div>
-  <div class="card" style="margin-top:16px">
-    <div class="card-title">Weekly Trend</div>
-    <div id="trend-chart"></div>
-  </div>
 </div>
 </div><!-- /season-view -->
 
@@ -742,6 +738,29 @@ function weekDays(week) {
 function weekLabel(week) {
   const s = parseISO(week.start), e = parseISO(week.end);
   return `${MONTH_NAMES[s.getMonth()]} ${s.getDate()} - ${MONTH_NAMES[e.getMonth()]} ${e.getDate()}, ${e.getFullYear()}`;
+}
+
+// Cumulative score per week for one player (0 for weeks they weren't in).
+function cumSeries(name) {
+  let run = 0;
+  return LEAGUE_WEEKS.map(w => {
+    const p = w.players.find(x => x.name === name);
+    run += p ? p.score : 0;
+    return run;
+  });
+}
+
+// Tiny inline sparkline of a numeric series.
+function sparkline(series, color) {
+  if (series.length < 2) return '';
+  const W = 52, H = 16, pad = 2;
+  const max = Math.max(...series, 1), n = series.length;
+  const x = i => pad + (W - 2 * pad) * (n === 1 ? 0 : i / (n - 1));
+  const y = v => H - pad - (H - 2 * pad) * (v / max);
+  const d = series.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="vertical-align:middle;margin-left:8px;overflow:visible">`
+    + `<path d="${d}" fill="none" stroke="${color}" stroke-width="1.5"/>`
+    + `<circle cx="${x(n-1).toFixed(1)}" cy="${y(series[n-1]).toFixed(1)}" r="1.8" fill="${color}"/></svg>`;
 }
 
 function computeSeason() {
@@ -814,7 +833,7 @@ function renderSeason() {
           <div><div class="player-name">${p.name}</div></div>
         </div>
       </td>
-      <td class="score-cell${scoreClass}">${p.total === 0 ? '0' : p.total.toFixed(1)}</td>
+      <td class="score-cell${scoreClass}">${p.total === 0 ? '0' : p.total.toFixed(1)}${sparkline(cumSeries(p.name), '#10b981')}</td>
       <td>${winsText}</td>
       <td>${p.best === 0 ? '-' : p.best.toFixed(1)}</td>
     </tr>`;
@@ -944,7 +963,8 @@ function renderWeekly() {
   const daily = week.daily || {};
   const activeNames = sorted.filter(p => p.score > 0).map(p => p.name);
   const inactiveNames = sorted.filter(p => p.score === 0).map(p => p.name);
-  document.getElementById('heatmap-body').innerHTML = [...activeNames, ...inactiveNames].map(name => {
+  const refNames = refs.map(p => p.name);
+  document.getElementById('heatmap-body').innerHTML = [...activeNames, ...refNames, ...inactiveNames].map(name => {
     const nd = daily[name] || {};
     return `<tr><td class="name-cell">${name}</td>${days.map(d => {
       const v = nd[d] || 0;
@@ -982,53 +1002,6 @@ function renderWeekly() {
     : '<li class="bug-item" style="color:var(--text-muted)">No reports yet this week</li>';
 }
 
-function renderTrend() {
-  const el = document.getElementById('trend-chart');
-  if (LEAGUE_WEEKS.length < 2) {
-    el.innerHTML = '<div style="color:var(--text-muted);padding:8px 0">Trend appears after 2+ weeks.</div>';
-    return;
-  }
-  // Cumulative score per competitor across weeks.
-  const names = new Set();
-  LEAGUE_WEEKS.forEach(w => w.players.filter(p => !p.reference).forEach(p => names.add(p.name)));
-  const series = [...names].map(name => {
-    let cum = 0;
-    const pts = LEAGUE_WEEKS.map(w => {
-      const p = w.players.find(pp => pp.name === name);
-      cum += p ? p.score : 0;
-      return cum;
-    });
-    return { name, pts, total: cum };
-  }).filter(s => s.total > 0).sort((a, b) => b.total - a.total);
-
-  const W = 640, H = 300, padL = 40, padR = 90, padT = 20, padB = 30;
-  const maxY = Math.max(...series.map(s => s.pts[s.pts.length - 1]), 1);
-  const n = LEAGUE_WEEKS.length;
-  const x = i => padL + (W - padL - padR) * (n === 1 ? 0 : i / (n - 1));
-  const y = v => H - padB - (H - padT - padB) * (v / maxY);
-  const colors = ['#10b981','#6366f1','#f59e0b','#ef4444','#ec4899','#14b8a6','#8b5cf6','#eab308','#06b6d4','#f97316','#84cc16','#a855f7'];
-
-  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">`;
-  for (let g = 0; g <= 4; g++) {
-    const gy = padT + (H - padT - padB) * g / 4;
-    svg += `<line x1="${padL}" y1="${gy}" x2="${W-padR}" y2="${gy}" stroke="#1f2937" stroke-width="1"/>`;
-    svg += `<text x="${padL-6}" y="${gy+4}" text-anchor="end" fill="#6b7280" font-size="10">${Math.round(maxY*(4-g)/4)}</text>`;
-  }
-  LEAGUE_WEEKS.forEach((w, i) => {
-    svg += `<text x="${x(i)}" y="${H-8}" text-anchor="middle" fill="#9ca3af" font-size="10">W${w.week}</text>`;
-  });
-  series.forEach((s, si) => {
-    const c = colors[si % colors.length];
-    const path = s.pts.map((v, i) => `${i === 0 ? 'M' : 'L'}${x(i)},${y(v)}`).join(' ');
-    svg += `<path d="${path}" fill="none" stroke="${c}" stroke-width="2"/>`;
-    s.pts.forEach((v, i) => { svg += `<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="${c}"/>`; });
-    const ly = y(s.pts[s.pts.length - 1]);
-    svg += `<text x="${W-padR+6}" y="${ly+4}" fill="${c}" font-size="10">${s.name}</text>`;
-  });
-  svg += `</svg>`;
-  el.innerHTML = svg;
-}
-
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
@@ -1050,7 +1023,6 @@ async function init() {
   }
   renderWeekly();
   renderSeason();
-  renderTrend();
 }
 init();
 </script>
