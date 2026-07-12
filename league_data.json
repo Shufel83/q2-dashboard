@@ -38,7 +38,7 @@
       "week": 2,
       "start": "2026-07-06",
       "end": "2026-07-12",
-      "benchmark": { "score": 25.5, "sessions": 17, "days": 5 },
+      "benchmark": { "score": 27, "sessions": 18, "days": 5 },
       "players": [
         { "name": "Ohad", "score": 40.1, "sessions": 11, "bugs": 3, "webSessions": 7, "mcpSessions": 4, "mult": 1.38 },
         { "name": "Danielle", "score": 25, "sessions": 5, "bugs": 4, "webSessions": 5, "mcpSessions": 0, "mult": 1 },
@@ -52,7 +52,8 @@
         { "name": "Elena", "score": 5, "sessions": 4, "bugs": 0, "webSessions": 2, "mcpSessions": 2, "mult": 1.25 },
         { "name": "Sveto", "score": 0, "sessions": 0, "bugs": 0, "webSessions": 0, "mcpSessions": 0, "mult": 1 },
         { "name": "Mike", "score": 0, "sessions": 0, "bugs": 0, "webSessions": 0, "mcpSessions": 0, "mult": 1 },
-        { "name": "Shuf", "score": 19, "sessions": 19, "bugs": 0, "webSessions": 7, "mcpSessions": 12, "mult": 1, "reference": true }
+        { "name": "Shuf", "score": 19, "sessions": 19, "bugs": 0, "webSessions": 7, "mcpSessions": 12, "mult": 1, "reference": true },
+        { "name": "Tal", "score": 27, "sessions": 18, "bugs": 0, "webSessions": 9, "mcpSessions": 9, "mult": 1.5, "reference": true, "boss": true }
       ],
       "daily": {
         "Ohad": {"2026-07-07":1,"2026-07-08":1,"2026-07-09":1,"2026-07-12":1},
