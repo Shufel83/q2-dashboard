@@ -572,7 +572,7 @@ function renderActivity(){
 function toggleSess(i){var r=document.getElementById('sess'+i);if(r)r.style.display=r.style.display==='none'?'':'none';}
 
 // Expose handlers referenced by inline on* attributes (IIFE scope -> global).
-window.setFaPeriod=setFaPeriod;window.setGeoMode=setGeoMode;window.renderGeoTable=renderGeoTable;window.renderAssetTable=renderAssetTable;window.renderQueryTable=renderQueryTable;
+window.setFaPeriod=setFaPeriod;window.setGeoMode=setGeoMode;window.renderGeoTable=renderGeoTable;window.renderGeoMap=renderGeoMap;window.renderAssetTable=renderAssetTable;window.renderAssetPins=renderAssetPins;window.highlightAsset=highlightAsset;window.renderQueryTable=renderQueryTable;
 window.setActView=setActView;window.renderActivity=renderActivity;window.toggleSess=toggleSess;
 })();
 </script>
