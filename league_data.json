@@ -421,82 +421,82 @@
       "start": "2026-07-13",
       "end": "2026-07-19",
       "benchmark": {
-        "score": 35,
-        "sessions": 21,
-        "days": 3
+        "score": 45.5,
+        "sessions": 28,
+        "days": 4
       },
       "players": [
         {
           "name": "Dor",
-          "score": 21.7,
-          "sessions": 10,
+          "score": 23.5,
+          "sessions": 12,
           "bugs": 2,
+          "webSessions": 11,
+          "mcpSessions": 1,
+          "mult": 1.13
+        },
+        {
+          "name": "Eden",
+          "score": 20,
+          "sessions": 16,
+          "bugs": 0,
+          "webSessions": 14,
+          "mcpSessions": 2,
+          "mult": 1.25
+        },
+        {
+          "name": "Oleg",
+          "score": 19,
+          "sessions": 19,
+          "bugs": 0,
+          "webSessions": 19,
+          "mcpSessions": 0,
+          "mult": 1
+        },
+        {
+          "name": "Ohad",
+          "score": 16.7,
+          "sessions": 10,
+          "bugs": 1,
           "webSessions": 9,
           "mcpSessions": 1,
           "mult": 1.17
         },
         {
-          "name": "Eden",
-          "score": 17.3,
-          "sessions": 13,
-          "bugs": 0,
-          "webSessions": 11,
-          "mcpSessions": 2,
-          "mult": 1.33
-        },
-        {
-          "name": "Ohad",
-          "score": 15,
-          "sessions": 8,
+          "name": "Omer",
+          "score": 16.3,
+          "sessions": 9,
           "bugs": 1,
           "webSessions": 7,
-          "mcpSessions": 1,
+          "mcpSessions": 2,
           "mult": 1.25
         },
         {
-          "name": "Oleg",
-          "score": 14,
-          "sessions": 14,
-          "bugs": 0,
-          "webSessions": 14,
-          "mcpSessions": 0,
-          "mult": 1
-        },
-        {
-          "name": "Omer",
-          "score": 13.2,
-          "sessions": 7,
-          "bugs": 1,
-          "webSessions": 6,
-          "mcpSessions": 1,
-          "mult": 1.17
-        },
-        {
           "name": "Meitar",
-          "score": 10.5,
-          "sessions": 9,
+          "score": 11.3,
+          "sessions": 10,
           "bugs": 0,
-          "webSessions": 8,
+          "webSessions": 9,
           "mcpSessions": 1,
-          "mult": 1.17
+          "mult": 1.13
         },
         {
           "name": "Max",
-          "score": 8,
-          "sessions": 8,
+          "score": 9,
+          "sessions": 9,
           "bugs": 0,
-          "webSessions": 8,
+          "webSessions": 9,
           "mcpSessions": 0,
           "mult": 1
         },
         {
           "name": "Elena",
-          "score": 5,
-          "sessions": 4,
+          "score": 5.8,
+          "sessions": 5,
           "bugs": 0,
-          "webSessions": 3,
+          "webSessions": 4,
           "mcpSessions": 1,
-          "mult": 1.25
+          "mult": 1.17
         },
         {
           "name": "Sveto",
@@ -536,22 +536,22 @@
         },
         {
           "name": "Shuf",
-          "score": 16.5,
-          "sessions": 11,
+          "score": 16.6,
+          "sessions": 12,
           "bugs": 0,
           "webSessions": 4,
-          "mcpSessions": 7,
-          "mult": 1.5,
+          "mcpSessions": 8,
+          "mult": 1.38,
           "reference": true
         },
         {
           "name": "Tal",
-          "score": 35,
-          "sessions": 21,
+          "score": 45.5,
+          "sessions": 28,
           "bugs": 0,
-          "webSessions": 11,
-          "mcpSessions": 10,
-          "mult": 1.67,
+          "webSessions": 15,
+          "mcpSessions": 13,
+          "mult": 1.63,
           "reference": true,
           "boss": true
         }
@@ -560,50 +560,60 @@
         "Dor": {
           "2026-07-13": 1,
           "2026-07-14": 1,
-          "2026-07-15": 1
+          "2026-07-15": 1,
+          "2026-07-16": 1
         },
         "Eden": {
           "2026-07-13": 1,
           "2026-07-14": 1,
-          "2026-07-15": 1
+          "2026-07-15": 1,
+          "2026-07-16": 1
         },
         "Elena": {
           "2026-07-13": 1,
-          "2026-07-15": 1
+          "2026-07-15": 1,
+          "2026-07-16": 1
         },
         "Max": {
           "2026-07-13": 1,
           "2026-07-14": 1,
-          "2026-07-15": 1
+          "2026-07-15": 1,
+          "2026-07-16": 1
         },
         "Meitar": {
           "2026-07-13": 1,
           "2026-07-14": 1,
-          "2026-07-15": 1
+          "2026-07-15": 1,
+          "2026-07-16": 1
         },
         "Ohad": {
           "2026-07-13": 1,
-          "2026-07-15": 1
+          "2026-07-15": 1,
+          "2026-07-16": 1
         },
         "Oleg": {
           "2026-07-13": 1,
           "2026-07-14": 1,
-          "2026-07-15": 1
+          "2026-07-15": 1,
+          "2026-07-16": 1
         },
         "Omer": {
           "2026-07-13": 1,
           "2026-07-14": 1,
-          "2026-07-15": 1
+          "2026-07-15": 1,
+          "2026-07-16": 1
         },
         "Tal": {
           "2026-07-13": 1,
           "2026-07-14": 1,
-          "2026-07-15": 1
+          "2026-07-15": 1,
+          "2026-07-16": 1
         },
         "Shuf": {
           "2026-07-13": 1,
           "2026-07-14": 1,
-          "2026-07-15": 1
+          "2026-07-15": 1,
+          "2026-07-16": 1
         }
       }
     }
