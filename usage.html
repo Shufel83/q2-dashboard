@@ -125,6 +125,7 @@ tr:hover td{background:var(--surface2)}
       <button id="geoModeNum" class="filter-btn active" style="border:none;border-radius:0;margin:0" onclick="setGeoMode('#')">#</button>
       <button id="geoModePct" class="filter-btn" style="border:none;border-radius:0;margin:0" onclick="setGeoMode('%')">%</button>
     </div>
+    <button id="geoLizoToggle" class="filter-btn" style="margin:0" onclick="toggleLizo()">+ Team (demos)</button>
     <select id="geoAcctFilter" onchange="onGeoAcctChange()" style="padding:6px 10px;font-size:12px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);min-width:140px">
       <option value="">All accounts</option>
     </select>
@@ -316,21 +317,33 @@ sortTbl(document.getElementById('at2'));
 
 
 // GEOGRAPHY
-var mapInit=false,geoMode='#',geoMap=null,geoLayer=null;
+var mapInit=false,geoMode='#',geoMap=null,geoLayer=null,includeLizo=false;
+function G(){return includeLizo?(D.geoAll||D.geo):D.geo;}
 function setGeoMode(m){geoMode=m;document.getElementById('geoModeNum').classList.toggle('active',m==='#');document.getElementById('geoModePct').classList.toggle('active',m==='%');renderGeoTable()}
+function populateGeoAccts(){
+  var sel=document.getElementById('geoAcctFilter');
+  var prev=sel.value;
+  sel.innerHTML='<option value="">All accounts</option>';
+  (G().accounts||[]).forEach(function(a){var o=document.createElement('option');o.value=a;o.textContent=a;sel.appendChild(o)});
+  if(prev&&(G().accounts||[]).indexOf(prev)>=0)sel.value=prev;
+}
+function toggleLizo(){
+  includeLizo=!includeLizo;
+  document.getElementById('geoLizoToggle').classList.toggle('active',includeLizo);
+  populateGeoAccts();populateGeoUsers();renderGeoTable();renderGeoMap();
+}
 function initMap(){
   if(mapInit)return;mapInit=true;
   var map=L.map('map').setView([39.8,-98.5],4);geoMap=map;
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM & Carto',maxZoom:18}).addTo(map);
   geoLayer=L.layerGroup().addTo(map);
-  var sel=document.getElementById('geoAcctFilter');
-  (D.geo.accounts||[]).forEach(function(a){var o=document.createElement('option');o.value=a;o.textContent=a;sel.appendChild(o)});
+  populateGeoAccts();
   populateGeoUsers();
   renderGeoMap();
   renderGeoTable();
 }
 function geoUsersFor(acct){
-  var ua=D.geo.userAccount||{};
+  var ua=G().userAccount||{};
   var all=Object.keys(ua);
   return (acct?all.filter(function(u){return ua[u]===acct}):all).sort();
 }
@@ -342,8 +355,8 @@ function populateGeoUsers(){
 }
 function onGeoAcctChange(){populateGeoUsers();renderGeoTable();renderGeoMap();}
 function geoZipCount(z,raw,acct,user){
-  if(user)return (D.geo.zipUser[z]||{})[user]||0;
-  if(acct)return (D.geo.zipAcct[z]||{})[acct]||0;
+  if(user)return (G().zipUser[z]||{})[user]||0;
+  if(acct)return (G().zipAcct[z]||{})[acct]||0;
   return raw;
 }
 function renderGeoMap(){
@@ -351,7 +364,7 @@ function renderGeoMap(){
   geoLayer.clearLayers();
   var acct=document.getElementById('geoAcctFilter').value;
   var user=document.getElementById('geoUserFilter').value;
-  var mData=(D.geo.msas||[]).map(function(m){
+  var mData=(G().msas||[]).map(function(m){
     var cnt=0,zl=[];
     m.zips.forEach(function(z){
       var c=(acct||user)?geoZipCount(z[0],z[1],acct,user):z[1];
@@ -380,14 +393,16 @@ function renderGeoMap(){
 function renderGeoTable(){
   var acct=document.getElementById('geoAcctFilter').value;
   var user=document.getElementById('geoUserFilter').value;
-  var msas=D.geo.msas;
-  var wks=D.geo.weeks||[];
+  var msas=G().msas;
+  var wks=G().weeks||[];
+  var zipAcct=G().zipAcct||{};
   var filtered=[];
   var weekTotals=wks.map(function(){return 0});
   var grandTotal=0;
   msas.forEach(function(m){
     var fzips=[];
     var mTotal=0,mWeekly=wks.map(function(){return 0});
+    var acctSet={};
     m.zips.forEach(function(z){
       var zipCode=z[0],cnt=z[1],city=z[2],zwk=z[3]||[];
       if(acct||user){
@@ -395,6 +410,8 @@ function renderGeoTable(){
         if(fc===0)return;
         cnt=fc;
       }
+      var za=zipAcct[zipCode]||{};
+      Object.keys(za).forEach(function(a){if(!acct||a===acct)acctSet[a]=1});
       mTotal+=cnt;
       var fzwk=zwk.slice();
       for(var i=0;i<wks.length;i++){mWeekly[i]+=fzwk[i]||0}
@@ -402,24 +419,24 @@ function renderGeoTable(){
     });
     if(mTotal>0){
       fzips.sort(function(a,b){return b[1]-a[1]});
-      filtered.push({name:m.name,count:mTotal,weekly:mWeekly,zips:fzips});
+      filtered.push({name:m.name,count:mTotal,weekly:mWeekly,zips:fzips,nAcct:Object.keys(acctSet).length});
       grandTotal+=mTotal;
       for(var i=0;i<wks.length;i++)weekTotals[i]+=mWeekly[i];
     }
   });
-  filtered.sort(function(a,b){return b.count-a.count});
+  filtered.sort(function(a,b){return b.nAcct-a.nAcct||b.count-a.count});
   var isPct=geoMode==='%';
   var wkHd=wks.map(function(w){return '<th class="num">'+w.slice(5)+'</th>'}).join('');
-  document.getElementById('geoHead').innerHTML='<tr><th>Market</th><th class="num">Total</th>'+wkHd+'</tr>';
+  document.getElementById('geoHead').innerHTML='<tr><th>Market</th><th class="num">Accounts</th><th class="num">Total</th>'+wkHd+'</tr>';
   var rows='';
   function fmt(v,total){if(isPct){return total>0?(v/total*100).toFixed(1)+'%':'0%'}return v}
   filtered.forEach(function(m,mi){
     var mwk=m.weekly.map(function(v,i){return '<td class="num">'+fmt(v,weekTotals[i])+'</td>'}).join('');
-    rows+='<tr class="msa-row" data-msa="'+mi+'"><td><span class="arrow">▶</span>'+m.name+'</td><td class="num" style="color:var(--accent);font-weight:700">'+fmt(m.count,grandTotal)+'</td>'+mwk+'</tr>';
+    rows+='<tr class="msa-row" data-msa="'+mi+'"><td><span class="arrow">▶</span>'+m.name+'</td><td class="num" style="font-weight:600">'+m.nAcct+'</td><td class="num" style="color:var(--accent);font-weight:700">'+fmt(m.count,grandTotal)+'</td>'+mwk+'</tr>';
     m.zips.forEach(function(z){
       var city=z[2]||'';
       var zwk=(z[3]||[]).map(function(v,i){return '<td class="num">'+(v?fmt(v,weekTotals[i]):'')+'</td>'}).join('');
-      rows+='<tr class="zip-row" data-msa="'+mi+'"><td>'+z[0]+(city?' <span style="color:var(--text2);font-size:11px">'+city+'</span>':'')+'</td><td class="num">'+fmt(z[1],grandTotal)+'</td>'+zwk+'</tr>';
+      rows+='<tr class="zip-row" data-msa="'+mi+'"><td>'+z[0]+(city?' <span style="color:var(--text2);font-size:11px">'+city+'</span>':'')+'</td><td class="num"></td><td class="num">'+fmt(z[1],grandTotal)+'</td>'+zwk+'</tr>';
     });
   });
   document.getElementById('geoBody').innerHTML=rows;
@@ -617,7 +634,7 @@ function renderActivity(){
 function toggleSess(i){var r=document.getElementById('sess'+i);if(r)r.style.display=r.style.display==='none'?'':'none';}
 
 // Expose handlers referenced by inline on* attributes (IIFE scope -> global).
-window.setFaPeriod=setFaPeriod;window.setGeoMode=setGeoMode;window.renderGeoTable=renderGeoTable;window.renderGeoMap=renderGeoMap;window.onGeoAcctChange=onGeoAcctChange;window.renderAssetTable=renderAssetTable;window.renderAssetPins=renderAssetPins;window.onAssetAcctChange=onAssetAcctChange;window.highlightAsset=highlightAsset;window.renderQueryTable=renderQueryTable;
+window.setFaPeriod=setFaPeriod;window.setGeoMode=setGeoMode;window.toggleLizo=toggleLizo;window.renderGeoTable=renderGeoTable;window.renderGeoMap=renderGeoMap;window.onGeoAcctChange=onGeoAcctChange;window.renderAssetTable=renderAssetTable;window.renderAssetPins=renderAssetPins;window.onAssetAcctChange=onAssetAcctChange;window.highlightAsset=highlightAsset;window.renderQueryTable=renderQueryTable;
 window.setActView=setActView;window.renderActivity=renderActivity;window.toggleSess=toggleSess;
 })();
 </script>
