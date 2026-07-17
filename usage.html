@@ -89,6 +89,7 @@ tr:hover td{background:var(--surface2)}
   <div class="tab" data-tab="geography">Geography</div>
   <div class="tab" data-tab="assets">Assets</div>
   <div class="tab" data-tab="queries">Queries</div>
+  <div class="tab" data-tab="activity">Activity</div>
 </div>
 <div class="content">
 <div class="panel active" id="panel-summary">
@@ -154,7 +155,20 @@ tr:hover td{background:var(--surface2)}
     </select>
     <span style="font-size:11px;color:var(--text2)" id="queryCount"></span>
   </div>
-  <div class="table-wrap"><table id="queryTable"><thead><tr><th>User</th><th>Query</th><th>Tool / Source</th><th>Time</th><th>Status</th></tr></thead><tbody id="queryBody"></tbody></table></div>
+  <div class="table-wrap"><table id="queryTable"><thead><tr><th>User</th><th>Detail</th><th>Skill / Tool</th><th>Source</th><th>Time</th><th>Status</th></tr></thead><tbody id="queryBody"></tbody></table></div>
+</div>
+<div class="panel" id="panel-activity">
+  <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
+    <select id="actUserFilter" onchange="renderActivity()" style="padding:6px 10px;font-size:12px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);min-width:180px">
+      <option value="">All users</option>
+    </select>
+    <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:6px;overflow:hidden">
+      <button id="actViewSess" class="filter-btn active" style="border:none;border-radius:0;margin:0;padding:4px 10px;font-size:11px" onclick="setActView('sessions')">Sessions</button>
+      <button id="actViewFlat" class="filter-btn" style="border:none;border-radius:0;margin:0;padding:4px 10px;font-size:11px" onclick="setActView('flat')">Flat log</button>
+    </div>
+    <span style="font-size:11px;color:var(--text2)" id="actCount"></span>
+  </div>
+  <div class="table-wrap"><table id="actTable"><thead id="actHead"></thead><tbody id="actBody"></tbody></table></div>
 </div>
 </div>
 <script>
@@ -181,6 +195,7 @@ document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click'
   if(t.dataset.tab==='geography')initMap();
   if(t.dataset.tab==='assets')initAssets();
   if(t.dataset.tab==='queries')initQueries();
+  if(t.dataset.tab==='activity')initActivity();
 })});
 document.getElementById('ut').textContent=new Date(D.updated).toLocaleString('en-US',{timeZone:'Asia/Jerusalem',dateStyle:'medium',timeStyle:'short'});
 
@@ -373,9 +388,10 @@ function renderGeoTable(){
 
 // FEATURE ADOPTION — grouped by feature, users inside each bar
 var faChart=null,faPeriod='30d';
-var faColors={ask_lizo:'#7C3AED',assets:'#10A37F',pipeline:'#D97706',library:'#3B82F6',reports:'#EC4899'};
-var faLabels={ask_lizo:'Ask lizo',assets:'Assets',pipeline:'Pipeline',library:'Location Analysis',reports:'Research Tools'};
-var faKeys=['ask_lizo','assets','pipeline','library','reports'];
+var faColors={ask_lizo:'#7C3AED',assets:'#10A37F',pipeline:'#D97706',library:'#3B82F6',reports:'#EC4899',onboarding:'#64748B',gmail:'#EA4335',teasers:'#F59E0B',tarlist:'#06B6D4'};
+var faLabels={ask_lizo:'Ask lizo',assets:'Assets',pipeline:'Pipeline',library:'Location Analysis',reports:'Research Tools',onboarding:'Onboarding',gmail:'Gmail',teasers:'Teasers',tarlist:'Target Lists'};
+var faKeys=['ask_lizo','assets','pipeline','library','reports','onboarding','gmail','teasers','tarlist'];
+var TOOL_LABELS={location_analysis:'Location analysis',find_asset:'Find asset',get_asset_data:'Asset data',compare_zip_code:'Compare ZIPs',zip_code_vs_msa:'ZIP vs MSA',find_zip_code:'Find ZIP',get_zip_code_data:'ZIP data',compare_msa:'Compare MSA',find_msa:'Find MSA',compare_rents_data:'Rents compare',asset_snapshot_with_zip_avg:'Asset snapshot'};
 function setFaPeriod(p){faPeriod=p;document.getElementById('fa7d').classList.toggle('active',p==='7d');document.getElementById('fa30d').classList.toggle('active',p==='30d');renderFaChart()}
 function renderFaChart(){
   var data=D.featureAdoption[faPeriod]||[];
@@ -478,18 +494,60 @@ function renderQueryTable(){
     return true;
   });
   document.getElementById('queryCount').textContent=queries.length+' quer'+(queries.length!==1?'ies':'y');
-  if(!queries.length){document.getElementById('queryBody').innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text2)">No queries found</td></tr>';return}
+  if(!queries.length){document.getElementById('queryBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text2)">No queries found</td></tr>';return}
   document.getElementById('queryBody').innerHTML=queries.map(function(q){
     var srcBadge='<span class="badge '+(q.source==='Web'?'internal':'external')+'">'+q.source+'</span>';
-    var toolInfo=q.tool?q.tool:'—';
+    var toolInfo=q.tool?(TOOL_LABELS[q.tool]||q.tool):(q.source==='Web'?'Web query':'—');
     var stBadge=q.status==='success'?'<span class="badge success">OK</span>':(q.status?'<span class="badge error">'+q.status+'</span>':'—');
-    return '<tr><td>'+q.user+'</td><td class="query-text" style="max-width:350px" title="'+(q.query||'').replace(/"/g,'&quot;')+'">'+(q.query||'—')+'</td><td>'+toolInfo+' '+srcBadge+'</td><td>'+fdt(q.time)+'</td><td>'+stBadge+'</td></tr>';
+    var ts=q.time?new Date(q.time).getTime():0;
+    return '<tr><td>'+q.user+'</td><td class="query-text" style="max-width:350px" title="'+(q.query||'').replace(/"/g,'&quot;')+'">'+(q.query||'—')+'</td><td>'+toolInfo+'</td><td>'+srcBadge+'</td><td data-sort-value="'+ts+'">'+fdt(q.time)+'</td><td>'+stBadge+'</td></tr>';
   }).join('');
   sortTbl(document.getElementById('queryTable'));
 }
 
+// ACTIVITY TAB
+var activityInit=false,actView='sessions';
+function initActivity(){
+  if(activityInit)return;activityInit=true;
+  var sessions=D.activityLog||[];
+  var userSet={};
+  sessions.forEach(function(s){if(s.user)userSet[s.user]=1});
+  var sel=document.getElementById('actUserFilter');
+  Object.keys(userSet).sort().forEach(function(e){var o=document.createElement('option');o.value=e;o.textContent=e;sel.appendChild(o)});
+  renderActivity();
+}
+function setActView(v){actView=v;document.getElementById('actViewSess').classList.toggle('active',v==='sessions');document.getElementById('actViewFlat').classList.toggle('active',v==='flat');renderActivity();}
+function renderActivity(){
+  var userF=document.getElementById('actUserFilter').value;
+  var sessions=(D.activityLog||[]).filter(function(s){return !userF||s.user===userF});
+  var head=document.getElementById('actHead'),body=document.getElementById('actBody');
+  if(actView==='flat'){
+    head.innerHTML='<tr><th>User</th><th>Company</th><th>Action</th><th>Detail</th><th>Time</th></tr>';
+    var rows=[];
+    sessions.forEach(function(s){s.actions.forEach(function(a){rows.push({user:s.user,company:s.company,name:a.name,detail:a.detail,time:a.time})})});
+    rows.sort(function(a,b){return String(b.time||'').localeCompare(String(a.time||''))});
+    document.getElementById('actCount').textContent=rows.length+' event'+(rows.length!==1?'s':'');
+    if(!rows.length){body.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text2)">No activity found</td></tr>';return}
+    body.innerHTML=rows.map(function(r){var ts=r.time?new Date(r.time).getTime():0;return '<tr><td>'+r.user+'</td><td>'+(r.company||'—')+'</td><td>'+r.name+'</td><td style="color:var(--text2);font-size:11px">'+(r.detail||'')+'</td><td data-sort-value="'+ts+'">'+fdt(r.time)+'</td></tr>'}).join('');
+    sortTbl(document.getElementById('actTable'));
+  } else {
+    head.innerHTML='<tr><th>User</th><th>Company</th><th>Session start</th><th>Duration</th><th># actions</th><th>Flow</th></tr>';
+    document.getElementById('actCount').textContent=sessions.length+' session'+(sessions.length!==1?'s':'');
+    if(!sessions.length){body.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text2)">No sessions found</td></tr>';return}
+    body.innerHTML=sessions.map(function(s,i){
+      var dur=s.durationMin>0?s.durationMin+'m':'<1m';
+      var steps=s.actions.map(function(a){return '<div style="padding:2px 0;font-size:12px"><span style="color:var(--text2)">'+fdt(a.time)+'</span> — '+a.name+(a.detail?' <span style="color:var(--text2);font-size:11px">'+a.detail+'</span>':'')+'</div>'}).join('');
+      var main='<tr style="cursor:pointer" onclick="toggleSess('+i+')"><td>'+s.user+'</td><td>'+(s.company||'—')+'</td><td>'+fdt(s.start)+'</td><td>'+dur+'</td><td>'+s.count+'</td><td class="query-text" style="max-width:380px">'+s.flowPreview+'</td></tr>';
+      var det='<tr id="sess'+i+'" style="display:none"><td colspan="6" style="padding-left:16px">'+steps+'</td></tr>';
+      return main+det;
+    }).join('');
+  }
+}
+function toggleSess(i){var r=document.getElementById('sess'+i);if(r)r.style.display=r.style.display==='none'?'':'none';}
+
 // Expose handlers referenced by inline on* attributes (IIFE scope -> global).
 window.setFaPeriod=setFaPeriod;window.setGeoMode=setGeoMode;window.renderGeoTable=renderGeoTable;window.renderAssetTable=renderAssetTable;window.renderQueryTable=renderQueryTable;
+window.setActView=setActView;window.renderActivity=renderActivity;window.toggleSess=toggleSess;
 })();
 </script>
 </body>
