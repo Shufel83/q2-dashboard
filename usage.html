@@ -97,7 +97,10 @@ tr:hover td{background:var(--surface2)}
 <div class="panel active" id="panel-summary">
   <div id="sn" class="narrative"></div>
   <div id="sc"></div>
-  <div class="chart-container" id="top3box"><h3>Top 3 Users — Rolling 7 Days</h3><div id="top3"></div></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="chart-container" id="top3box" style="margin:0"><h3>Top 3 Users — Rolling 7 Days</h3><div id="top3"></div></div>
+    <div class="chart-container" id="top3accbox" style="margin:0"><h3>Top 3 Accounts — Rolling 7 Days</h3><div id="top3acc"></div></div>
+  </div>
   <div class="chart-container"><h3>Weekly Activity</h3><canvas id="weeklyChart"></canvas></div>
   <div class="chart-container"><h3>Platform Mix (% of weekly activity)</h3><canvas id="platMixChart"></canvas></div>
   <div class="chart-container"><h3>Account Trends</h3><div id="accTrends" class="trends-grid"></div></div>
@@ -271,6 +274,10 @@ document.getElementById('sc').innerHTML='<div class="kpi-section-label">This wee
 // Top 3 users rolling 7 days
 var top3=D.users.filter(function(u){return!u.internal&&u.thisWeek>0}).sort(function(a,b){return b.thisWeek-a.thisWeek}).slice(0,3);
 if(top3.length){document.getElementById('top3').innerHTML=top3.map(function(u,i){var medal=['🥇','🥈','🥉'][i];return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0'+(i<2?';border-bottom:1px solid var(--border)':'')+'"><span style="font-size:20px">'+medal+'</span><div style="flex:1"><div style="font-weight:600;font-size:14px">'+u.email+' <span class="badge external">'+u.company+'</span></div><div style="font-size:12px;color:var(--text2)">'+u.thisWeek+' queries this week</div></div></div>'}).join('')}else{document.getElementById('top3box').style.display='none'}
+
+// Top 3 accounts rolling 7 days
+var top3acc=D.accounts.filter(function(a){return!a.internal&&a.thisWeek>0}).sort(function(a,b){return b.thisWeek-a.thisWeek}).slice(0,3);
+if(top3acc.length){document.getElementById('top3acc').innerHTML=top3acc.map(function(a,i){var medal=['🥇','🥈','🥉'][i];return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0'+(i<2?';border-bottom:1px solid var(--border)':'')+'"><span style="font-size:20px">'+medal+'</span><div style="flex:1"><div style="font-weight:600;font-size:14px">'+a.company+' <span class="badge external">'+a.users+(a.users===1?' user':' users')+'</span></div><div style="font-size:12px;color:var(--text2)">'+a.thisWeek+' queries this week</div></div></div>'}).join('')}else{document.getElementById('top3accbox').style.display='none'}
 
 // Weekly trend chart with cumulative line
 new Chart(document.getElementById('weeklyChart').getContext('2d'),{type:'bar',data:{labels:D.weekly.map(function(w){var d=new Date(w.week+'T00:00:00Z');return d.toLocaleDateString('en-US',{month:'short',day:'numeric'})}),datasets:[{label:'Claude MCP',data:D.weekly.map(function(w){return w.mcpClaude}),backgroundColor:'#D97706',stack:'s',order:2},{label:'ChatGPT MCP',data:D.weekly.map(function(w){return w.mcpGpt}),backgroundColor:'#10A37F',stack:'s',order:2},{label:'Web',data:D.weekly.map(function(w){return w.web}),backgroundColor:'#7C3AED',stack:'s',order:2},{label:'Cumulative',data:D.weekly.map(function(w){return w.cumulative}),type:'line',borderColor:'rgba(0,0,0,.3)',backgroundColor:'transparent',borderWidth:2,pointRadius:3,pointBackgroundColor:'rgba(0,0,0,.4)',yAxisID:'y1',order:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{size:11}}}},scales:{x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'#e5e7eb'},stacked:true},y:{ticks:{color:'#6b7280'},grid:{color:'#e5e7eb'},stacked:true},y1:{position:'right',ticks:{color:'rgba(0,0,0,.3)',font:{size:10}},grid:{display:false}}}}});
