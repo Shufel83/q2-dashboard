@@ -546,7 +546,10 @@
     <h1><span>League</span></h1>
   </div>
   <div class="week-label" id="week-label"></div>
-  <button onclick="window.location.reload()" style="margin-top:8px;padding:4px 14px;font-size:12px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text-dim);cursor:pointer;font-family:inherit">↻ Refresh</button>
+  <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+    <select id="week-select" onchange="renderWeekly(parseInt(this.value,10))" style="padding:4px 10px;font-size:12px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text-dim);cursor:pointer;font-family:inherit"></select>
+    <button onclick="window.location.reload()" style="padding:4px 14px;font-size:12px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text-dim);cursor:pointer;font-family:inherit">↻ Refresh</button>
+  </div>
 </div>
 
 <!-- Benchmark -->
@@ -871,8 +874,9 @@ function renderSeason() {
   }).join('');
 }
 
-function renderWeekly() {
-  const week = LEAGUE_WEEKS[LEAGUE_WEEKS.length - 1];
+function renderWeekly(idx) {
+  if (idx === undefined || idx === null || isNaN(idx)) idx = LEAGUE_WEEKS.length - 1;
+  const week = LEAGUE_WEEKS[idx];
   const competitors = week.players.filter(p => !p.reference);
   const refs = week.players.filter(p => p.reference);
   const sorted = [...competitors].sort((a, b) => b.score - a.score);
@@ -981,7 +985,7 @@ function renderWeekly() {
   const bugHunter = maxBugs > 0
     ? { name: sorted.filter(p => p.bugs === maxBugs).map(p => p.name).join(', ') }
     : null;
-  const prevWeek = LEAGUE_WEEKS.length > 1 ? LEAGUE_WEEKS[LEAGUE_WEEKS.length - 2] : null;
+  const prevWeek = idx > 0 ? LEAGUE_WEEKS[idx - 1] : null;
   let risingStar = null;
   if (prevWeek) {
     let bestGain = 0;
@@ -1023,6 +1027,10 @@ async function init() {
     console.error('Failed to load league_data.json', e);
     return;
   }
+  const sel = document.getElementById('week-select');
+  sel.innerHTML = LEAGUE_WEEKS.map((w, i) =>
+    `<option value="${i}">Week ${w.week} · ${weekLabel(w)}</option>`).join('');
+  sel.value = LEAGUE_WEEKS.length - 1;
   renderWeekly();
   renderSeason();
 }
