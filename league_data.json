@@ -34,8 +34,9 @@
           "sessions": 10,
           "bugs": 1,
           "webSessions": 3,
-          "mcpSessions": 7,
-          "mult": 1.63
+          "mcpSessions": 5,
+          "mult": 1.63,
+          "gptSessions": 2
         },
         {
           "name": "Oleg",
@@ -44,7 +45,8 @@
           "bugs": 0,
           "webSessions": 10,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Eden",
@@ -53,7 +55,8 @@
           "bugs": 0,
           "webSessions": 3,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Dor",
@@ -62,7 +65,8 @@
           "bugs": 0,
           "webSessions": 4,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Elena",
@@ -71,7 +75,8 @@
           "bugs": 0,
           "webSessions": 1,
           "mcpSessions": 1,
-          "mult": 1.5
+          "mult": 1.5,
+          "gptSessions": 0
         },
         {
           "name": "Ohad",
@@ -80,7 +85,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Sveto",
@@ -89,7 +95,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Meitar",
@@ -98,7 +105,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Danielle",
@@ -107,7 +115,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Amir",
@@ -116,7 +125,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Max",
@@ -125,7 +135,8 @@
           "bugs": 0,
           "webSessions": 2,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Mike",
@@ -134,7 +145,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Shuf",
@@ -144,7 +156,8 @@
           "webSessions": 7,
           "mcpSessions": 0,
           "mult": 1,
-          "reference": true
+          "reference": true,
+          "gptSessions": 0
         },
         {
           "name": "Tal",
@@ -152,10 +165,11 @@
           "sessions": 22,
           "bugs": 0,
           "webSessions": 7,
-          "mcpSessions": 15,
+          "mcpSessions": 14,
           "mult": 1.29,
           "reference": true,
-          "boss": true
+          "boss": true,
+          "gptSessions": 1
         }
       ],
       "daily": {
@@ -222,7 +236,8 @@
           "bugs": 3,
           "webSessions": 7,
           "mcpSessions": 4,
-          "mult": 1.38
+          "mult": 1.38,
+          "gptSessions": 0
         },
         {
           "name": "Danielle",
@@ -231,7 +246,8 @@
           "bugs": 4,
           "webSessions": 5,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Amir",
@@ -240,7 +256,8 @@
           "bugs": 4,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Eden",
@@ -248,8 +265,9 @@
           "sessions": 10,
           "bugs": 0,
           "webSessions": 10,
-          "mcpSessions": 0,
-          "mult": 1
+          "mcpSessions": 3,
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Max",
@@ -258,7 +276,8 @@
           "bugs": 0,
           "webSessions": 10,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Omer",
@@ -267,7 +286,8 @@
           "bugs": 0,
           "webSessions": 4,
           "mcpSessions": 4,
-          "mult": 1.25
+          "mult": 1.25,
+          "gptSessions": 0
         },
         {
           "name": "Oleg",
@@ -276,7 +296,8 @@
           "bugs": 0,
           "webSessions": 10,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Meitar",
@@ -285,7 +306,8 @@
           "bugs": 0,
           "webSessions": 9,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Dor",
@@ -294,7 +316,8 @@
           "bugs": 0,
           "webSessions": 7,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Elena",
@@ -303,7 +326,8 @@
           "bugs": 0,
           "webSessions": 2,
           "mcpSessions": 2,
-          "mult": 1.25
+          "mult": 1.25,
+          "gptSessions": 0
         },
         {
           "name": "Sveto",
@@ -312,7 +336,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Mike",
@@ -321,7 +346,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Shuf",
@@ -331,7 +357,8 @@
           "webSessions": 7,
           "mcpSessions": 12,
           "mult": 1,
-          "reference": true
+          "reference": true,
+          "gptSessions": 0
         },
         {
           "name": "Tal",
@@ -342,7 +369,8 @@
           "mcpSessions": 9,
           "mult": 1.5,
           "reference": true,
-          "boss": true
+          "boss": true,
+          "gptSessions": 1
         }
       ],
       "daily": {
@@ -433,7 +461,8 @@
           "bugs": 0,
           "webSessions": 24,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Dor",
@@ -442,7 +471,8 @@
           "bugs": 2,
           "webSessions": 11,
           "mcpSessions": 1,
-          "mult": 1.13
+          "mult": 1.13,
+          "gptSessions": 0
         },
         {
           "name": "Eden",
@@ -451,7 +481,8 @@
           "bugs": 0,
           "webSessions": 15,
           "mcpSessions": 2,
-          "mult": 1.2
+          "mult": 1.2,
+          "gptSessions": 0
         },
         {
           "name": "Omer",
@@ -460,7 +491,8 @@
           "bugs": 1,
           "webSessions": 9,
           "mcpSessions": 2,
-          "mult": 1.2
+          "mult": 1.2,
+          "gptSessions": 0
         },
         {
           "name": "Ohad",
@@ -469,7 +501,8 @@
           "bugs": 1,
           "webSessions": 9,
           "mcpSessions": 1,
-          "mult": 1.17
+          "mult": 1.17,
+          "gptSessions": 0
         },
         {
           "name": "Elena",
@@ -478,7 +511,8 @@
           "bugs": 0,
           "webSessions": 7,
           "mcpSessions": 2,
-          "mult": 1.25
+          "mult": 1.25,
+          "gptSessions": 0
         },
         {
           "name": "Meitar",
@@ -487,7 +521,8 @@
           "bugs": 0,
           "webSessions": 9,
           "mcpSessions": 1,
-          "mult": 1.13
+          "mult": 1.13,
+          "gptSessions": 0
         },
         {
           "name": "Max",
@@ -496,7 +531,8 @@
           "bugs": 0,
           "webSessions": 9,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Sveto",
@@ -505,7 +541,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Danielle",
@@ -514,7 +551,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Amir",
@@ -523,7 +561,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Mike",
@@ -532,7 +571,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Shuf",
@@ -542,7 +582,8 @@
           "webSessions": 5,
           "mcpSessions": 11,
           "mult": 1.33,
-          "reference": true
+          "reference": true,
+          "gptSessions": 0
         },
         {
           "name": "Tal",
@@ -553,7 +594,8 @@
           "mcpSessions": 23,
           "mult": 1.67,
           "reference": true,
-          "boss": true
+          "boss": true,
+          "gptSessions": 3
         }
       ],
       "daily": {
@@ -643,7 +685,8 @@
           "bugs": 1,
           "webSessions": 4,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Oleg",
@@ -652,7 +695,8 @@
           "bugs": 0,
           "webSessions": 4,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Eden",
@@ -661,7 +705,8 @@
           "bugs": 0,
           "webSessions": 3,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Dor",
@@ -670,7 +715,8 @@
           "bugs": 0,
           "webSessions": 3,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Elena",
@@ -679,7 +725,8 @@
           "bugs": 0,
           "webSessions": 1,
           "mcpSessions": 2,
-          "mult": 1.5
+          "mult": 1.5,
+          "gptSessions": 0
         },
         {
           "name": "Ohad",
@@ -687,8 +734,9 @@
           "sessions": 4,
           "bugs": 2,
           "webSessions": 2,
-          "mcpSessions": 2,
-          "mult": 1.5
+          "mcpSessions": 3,
+          "mult": 1.5,
+          "gptSessions": 0
         },
         {
           "name": "Sveto",
@@ -697,7 +745,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Meitar",
@@ -706,7 +755,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Danielle",
@@ -715,7 +765,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Amir",
@@ -724,7 +775,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Max",
@@ -733,7 +785,8 @@
           "bugs": 0,
           "webSessions": 5,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Mike",
@@ -742,7 +795,8 @@
           "bugs": 0,
           "webSessions": 0,
           "mcpSessions": 0,
-          "mult": 1
+          "mult": 1,
+          "gptSessions": 0
         },
         {
           "name": "Tal",
@@ -750,10 +804,11 @@
           "sessions": 6,
           "bugs": 0,
           "webSessions": 4,
-          "mcpSessions": 2,
+          "mcpSessions": 6,
           "mult": 1.5,
           "reference": true,
-          "boss": true
+          "boss": true,
+          "gptSessions": 0
         }
       ],
       "daily": {
