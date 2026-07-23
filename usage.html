@@ -90,7 +90,7 @@ tr:hover td{background:var(--surface2)}
   <div class="tab" data-tab="accounts">Accounts</div>
   <div class="tab" data-tab="geography">Geography</div>
   <div class="tab" data-tab="assets">Assets</div>
-  <div class="tab" data-tab="queries">Queries</div>
+  <div class="tab" data-tab="queries">Data Requests</div>
   <div class="tab" data-tab="activity">Activity</div>
 </div>
 <div class="content">
@@ -117,11 +117,11 @@ tr:hover td{background:var(--surface2)}
   </div>
 </div>
 <div class="panel" id="panel-users">
-  <div class="table-wrap"><table id="ut2"><thead><tr><th>User</th><th>Last Active</th><th>This Week</th><th>Total</th><th>WoW</th><th>Streak</th><th>6w Trend</th><th>Claude MCP</th><th>GPT MCP</th><th>Web</th></tr></thead><tbody></tbody></table></div>
+  <div class="table-wrap"><table id="ut2"><thead><tr><th>User</th><th>Last Active</th><th>This Week</th><th>Queries</th><th>Requests</th><th>WoW</th><th>Streak</th><th>6w Trend</th><th>Claude MCP</th><th>GPT MCP</th><th>Web</th></tr></thead><tbody></tbody></table></div>
 </div>
 <div class="panel" id="panel-accounts">
   <div id="attnBox" style="display:none;margin-bottom:16px;padding:12px 14px;border:1px solid var(--red);border-radius:8px;background:rgba(220,38,38,.06)"><div style="font-weight:600;font-size:13px;color:var(--red);margin-bottom:6px">Needs attention — active but not marked live in the roster</div><div id="attnList" style="font-size:13px;color:var(--text)"></div></div>
-  <div class="table-wrap"><table id="at2"><thead><tr><th>Status</th><th>Account</th><th>Active Users</th><th>Last Active</th><th>This Week</th><th>Total</th><th>Trend</th><th>6w Sparkline</th></tr></thead><tbody></tbody></table></div>
+  <div class="table-wrap"><table id="at2"><thead><tr><th>Status</th><th>Account</th><th>Active Users</th><th>Last Active</th><th>This Week</th><th>Queries</th><th>Requests</th><th>Trend</th><th>6w Sparkline</th></tr></thead><tbody></tbody></table></div>
 </div>
 <div class="panel" id="panel-geography">
   <div id="map"></div>
@@ -263,6 +263,7 @@ var row1=kcard('Active Accounts / wk',kv(K.activeAccounts).thisWeek,K.activeAcco
   kcard('Returning Accounts',kv(K.returningAccounts).thisWeek,K.returningAccounts)+
   kcard('Queries / Account',kv(K.queriesPerAccount).thisWeek,K.queriesPerAccount);
 var row2='<div class="card north-star"><div class="label">Total External Queries</div><div class="value">'+S.extTotal.toLocaleString()+'</div><div class="delta">'+(S.wowPct!==null?wd+' '+Math.abs(S.wowPct)+'% WoW':'')+'</div></div>'+
+  '<div class="card"><div class="label">Data Requests</div><div class="value">'+(S.extRequests||S.extTotal).toLocaleString()+'</div><div class="delta">tool calls / sends behind the queries</div></div>'+
   '<div class="card"><div class="label">External Accounts</div><div class="value">'+S.extAccountCount+'</div></div>'+
   '<div class="card"><div class="label">External Users</div><div class="value">'+S.extUserCount+'</div></div>'+
   '<div class="card"><div class="label">Claude MCP</div><div class="value">'+S.platforms.claude.toLocaleString()+'</div><div class="delta">'+wow(S.platformWow.claudeTW,S.platformWow.claudeLW)+'</div></div>'+
@@ -305,7 +306,7 @@ function wowBadge(v){if(v===null)return'<span class="delta flat">—</span>';if(
 function streakBadge(n){if(!n)return'—';return n+'w'}
 function sparkline(arr){var mx=Math.max.apply(null,arr)||1;return '<svg width="60" height="20" style="vertical-align:middle">'+arr.map(function(v,i){var h=Math.max(Math.round(v/mx*18),v>0?2:0);return '<rect x="'+(i*10+1)+'" y="'+(20-h)+'" width="8" height="'+h+'" rx="1" fill="'+(i===arr.length-1?'var(--accent)':'#cbd5e1')+'" />'}).join('')+'</svg>'}
 var extUsers=D.users.filter(function(u){return!u.internal});
-document.querySelector('#ut2 tbody').innerHTML=extUsers.map(function(u){var laTs=u.lastActive?new Date(u.lastActive).getTime():0;return '<tr><td>'+u.email+' <span class="badge external">'+u.company+'</span></td><td data-sort-value="'+laTs+'">'+fd(u.lastActive)+'</td><td><strong>'+u.thisWeek+'</strong></td><td>'+u.totalActivity.toLocaleString()+'</td><td>'+wowBadge(u.wow)+'</td><td>'+streakBadge(u.streak)+'</td><td>'+sparkline(u.recentWeeks)+'</td><td>'+u.mcpClaude.toLocaleString()+'</td><td>'+u.mcpGpt.toLocaleString()+'</td><td>'+u.web.toLocaleString()+'</td></tr>'}).join('');
+document.querySelector('#ut2 tbody').innerHTML=extUsers.map(function(u){var laTs=u.lastActive?new Date(u.lastActive).getTime():0;return '<tr><td>'+u.email+' <span class="badge external">'+u.company+'</span></td><td data-sort-value="'+laTs+'">'+fd(u.lastActive)+'</td><td><strong>'+u.thisWeek+'</strong></td><td>'+u.totalActivity.toLocaleString()+'</td><td>'+(u.totalRequests||0).toLocaleString()+'</td><td>'+wowBadge(u.wow)+'</td><td>'+streakBadge(u.streak)+'</td><td>'+sparkline(u.recentWeeks)+'</td><td>'+u.mcpClaude.toLocaleString()+'</td><td>'+u.mcpGpt.toLocaleString()+'</td><td>'+u.web.toLocaleString()+'</td></tr>'}).join('');
 sortTbl(document.getElementById('ut2'));
 
 // ACCOUNTS
@@ -325,7 +326,7 @@ document.querySelector('#at2 tbody').innerHTML=ext.map(function(a){
   var dot='<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+sc[0]+'"></span> '+sc[1];
   var auColor=a.activeUsers>0?'var(--green)':'var(--text2)';
   var laTs=a.lastActive?new Date(a.lastActive).getTime():0;
-  return '<tr><td>'+dot+'</td><td>'+a.company+'</td><td style="color:'+auColor+';font-weight:600">'+a.activeUsers+'/'+a.users+'</td><td data-sort-value="'+laTs+'">'+fd(a.lastActive)+'</td><td><strong>'+a.thisWeek+'</strong></td><td>'+a.total.toLocaleString()+'</td><td>'+trendBadge(a.trend)+'</td><td>'+sparkline(a.weeklyHistory)+'</td></tr>'
+  return '<tr><td>'+dot+'</td><td>'+a.company+'</td><td style="color:'+auColor+';font-weight:600">'+a.activeUsers+'/'+a.users+'</td><td data-sort-value="'+laTs+'">'+fd(a.lastActive)+'</td><td><strong>'+a.thisWeek+'</strong></td><td>'+a.total.toLocaleString()+'</td><td>'+(a.requests||0).toLocaleString()+'</td><td>'+trendBadge(a.trend)+'</td><td>'+sparkline(a.weeklyHistory)+'</td></tr>'
 }).join('');
 sortTbl(document.getElementById('at2'));
 // Attention callout — accounts active this week but not marked live in the roster.
@@ -592,8 +593,8 @@ function renderQueryTable(){
     if(srcF&&q.source!==srcF)return false;
     return true;
   });
-  document.getElementById('queryCount').textContent=queries.length+' quer'+(queries.length!==1?'ies':'y');
-  if(!queries.length){document.getElementById('queryBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text2)">No queries found</td></tr>';return}
+  document.getElementById('queryCount').textContent=queries.length+' data request'+(queries.length!==1?'s':'')+' (one row per MCP tool call or web send)';
+  if(!queries.length){document.getElementById('queryBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text2)">No data requests found</td></tr>';return}
   document.getElementById('queryBody').innerHTML=queries.map(function(q){
     var srcBadge='<span class="badge '+(q.source==='Web'?'internal':'external')+'">'+q.source+'</span>';
     var toolInfo=q.tool?(TOOL_LABELS[q.tool]||q.tool):(q.source==='Web'?'Web query':'—');
